@@ -25,4 +25,18 @@ namespace CDC {
         }
     }
 
+
+    /// @fn CDC::AddUser(string login, unsigned short secure_level)
+    /// @brief Add User to Login files
+    /// @param login string
+    /// @param secure_level level
+    /// @return 0 in case of success else 1
+    int AddUser(string login, unsigned short secure_level) {
+        // check login existance
+
+
+        // open file and write info
+
+    }
+
 }

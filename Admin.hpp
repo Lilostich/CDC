@@ -7,13 +7,20 @@
 #include <libconfig.h>      // Read cfg files
 #include <stdio.h>
 
-
+/// @class CDC::Admin
+/// @brief Admin panel functions without GUI
 namespace CDC {
 
     class Admin {
         public:
             Admin();
-            Admin(string MainCFG);
+            Admin(string CFG);
+
+            int AddUser(string login, unsigned short secure_level);
+            int DeleteUser(string login);
+            int SetLevel(string login, unsigned short secure_level);
+            int BanAll();
+            int UnbanAll;
 
             ~Admin();
 
