@@ -1,0 +1,7 @@
+# Name:PasswdHash:AccessLevel
+
+Admin:dsa3!23gfsdfg:0   # all functions
+Zverev_a:g1avn35#1:1    # test-analyst -> admin without admin-panel
+Poserenin_d:tr4%123fb:2 # tester -> test-analyst without list editor
+Markova_d:45Kgri3:3     # tourist -> only visit system without interaction
+Boronin_r:53Gr46#$te:10 # banned user
