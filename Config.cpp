@@ -2,15 +2,15 @@
 
 // help functions
 // ---------------------------------------------------------------------------
-bool CDC::OpenCfg(string ConfigPath, Config& Cfg){
+bool CDC::OpenCfg(std::string ConfigPath, Config& Cfg){
     try {
         cfg.readFile(ConfigPath);
-    } catch(const FileIOException &fioex) {
-        cerr << "I/O error while reading file " << ConfigPath << endl;
+    } catch(const std::FileIOException &fioex) {
+        std::cerr << "I/O error while reading file " << ConfigPath << endl;
         return false;
-    } catch(const ParseException &pex) {
-        cerr << "Parse error at " << pex.getFile() << ":" << pex.getLine()
-            << " - " << pex.getError() << endl;
+    } catch(const std::ParseException &pex) {
+        std::cerr << "Parse error at " << pex.getFile() << ":" << pex.getLine()
+            << " - " << pex.getError() << std::endl;
         return false;
     }
 
@@ -18,12 +18,12 @@ bool CDC::OpenCfg(string ConfigPath, Config& Cfg){
 }
 
 
-bool CDC::GetListFromCfg(string ListName, Config &Cfg, Setting &List){
+bool CDC::GetListFromCfg(std::string ListName, Config &Cfg, Setting &List){
     Setting &root = cfg.getRoot();          // get root of cfg
 
     // check List existance
     if (! root.exists(ListName)) {
-        cerr << "List " << ListName << "does not exist in cfg" << endl;
+        std::cerr << "List " << ListName << "does not exist in cfg" << std::endl;
         return false;
     }
 
@@ -31,7 +31,7 @@ bool CDC::GetListFromCfg(string ListName, Config &Cfg, Setting &List){
 
     // check users is List
     if (! List.isList()) {
-        cerr << "List " << ListName << "is not List in cfg" << endl;
+        std::cerr << "List " << ListName << "is not List in cfg" << std::endl;
         return false;
     }
 
@@ -39,9 +39,9 @@ bool CDC::GetListFromCfg(string ListName, Config &Cfg, Setting &List){
 }
 
 
-int CDC::GetGroupFromList(Setting &List, string Entry, string EntryVal){
+int CDC::GetGroupFromList(Setting &List, std::string Entry, std::string EntryVal){
     // find entry in group
-    string tmp_value = "";
+    std::string tmp_value = "";
     for (auto it = List.begin(); it < List.end(); it++) {
         it->lookupValue(Entry, tmp_value);  // write found entry to tmp_value
         if (tmp_value == EntryValue) {
@@ -55,9 +55,9 @@ int CDC::GetGroupFromList(Setting &List, string Entry, string EntryVal){
 
 // User functions
 // ---------------------------------------------------------------------------
-string CDC::GetEntryFromConfig(string ConfigPath, string Entry) {
+std::string CDC::GetEntryFromConfig(std::string ConfigPath, std::string Entry) {
     Config cfg;
-    string answer = "";
+    std::string answer = "";
 
     // read config
     if (! OpenCfg(ConfigPath, cfg))
@@ -67,14 +67,14 @@ string CDC::GetEntryFromConfig(string ConfigPath, string Entry) {
     try {
         answer = cfg.lookup(Entry);
     } catch (const SettingNotFoundException &nfex) {
-        cerr << "No" << Entry << "setting in configuration file " << ConfigPath << endl;
+        std::cerr << "No" << Entry << "setting in configuration file " << ConfigPath << std::endl;
     }
 
     return answer;
 }
 
 
-bool CDC::CheckEntryOfGroupInList(string ConfigPath, string ListName, string Entry, string EntryValue) {
+bool CDC::CheckEntryOfGroupInList(std::string ConfigPath, std::string ListName, std::string Entry, std::string EntryValue) {
     Config cfg;
 
     // read config
@@ -131,8 +131,8 @@ bool CDC::CheckEntriesInList(string ConfigPath, string ListName, string Entries[
 */
 
 
-bool CDC::AddGroupToList(string ConfigPath, string ListName, string entry_1,
-                string entry_2, string entry_1_val, unsigned short entry_2_val){
+bool CDC::AddGroupToList(std::string ConfigPath, std::string ListName, std::string entry_1,
+                std::string entry_2, std::string entry_1_val, unsigned short entry_2_val){
     Config cfg;
 
     // read config
@@ -156,8 +156,8 @@ bool CDC::AddGroupToList(string ConfigPath, string ListName, string entry_1,
 }
 
 
-bool CDC::DeleteGroupFromList(string ConfigPath, string ListName,
-                              string Entry, string EntryVal){
+bool CDC::DeleteGroupFromList(std::string ConfigPath, std::string ListName,
+                              std::string Entry, std::string EntryVal){
     Config cfg;
 
     // read config
@@ -180,29 +180,29 @@ bool CDC::DeleteGroupFromList(string ConfigPath, string ListName,
 }
 
 
-bool CDC::AddEntryToGroupOfList(Setting &List, int GroupIndex
-                            string Entry, string EntryVal){
+bool CDC::AddEntryToGroupOfList(Setting &List, int GroupIndex,
+                            std::string Entry, std::string EntryVal){
     Setting Group = List[GroupIndex];
     Group.add(Entry, Setting::TypeString) = EntryVal;
     return true;
 }
 
 
-bool CDC::DeleteEntryOfGroupOfList(Setting &List, int GroupIndex, string Entry){
+bool CDC::DeleteEntryOfGroupOfList(Setting &List, int GroupIndex, std::string Entry){
     Setting = Group = List[GroupIndex];
     try {
         Group.remove(Entry);
     } catch (const SettingNotFoundException &ex) {
-        cerr << "No" << Entry << "setting in Group" << endl;
+        std::cerr << "No" << Entry << "setting in Group" << std::endl;
         return false;
     }
 
     return true;
 }
 
-bool CDC::UpdateGroupOfList(string ConfigPath, string ListName,
-                            string Entry_1, string Entry_2,
-                            string EntryVal_1, string EntryVal_1);{
+bool CDC::UpdateGroupOfList(std::string ConfigPath, std::string ListName,
+                            std::string Entry_1, std::string Entry_2,
+                            std::string EntryVal_1, std::string EntryVal_2);{
     Config cfg;
 
     // read config

@@ -2,17 +2,18 @@
 #ifndef CDC_CONFIG_HPP
 #define CDC_CONFIG_HPP
 
-#include <string.h>
+#include <string>
+#include <iostream>
 #include <libconfig.h>      // Read cfg files
 
 using namespace libconfig;
-using namespace std;
+//using namespace std;
 
 namespace CDC {
 
     // paths
     // -----------------------------------------------------------------------
-    const string MAIN_CFG = "./CDC.cfg";
+    const std::string MAIN_CFG = "./CDC.cfg";
     // -----------------------------------------------------------------------
 
 
@@ -24,7 +25,7 @@ namespace CDC {
     /// @param ConfigPath path to .cfg file
     /// @param Cfg Config object to store read file
     /// @return true in case of successful read else false
-    bool OpenCfg(string ConfigPath, Config& Cfg);
+    bool OpenCfg(std::string ConfigPath, Config& Cfg);
 
     /// @fn bool CDC::GetListFromCfg(string ListName, Config &Cfg, Setting &List)
     /// @brief Check existing of List in cfg object, set List from cfg to List variable
@@ -32,7 +33,7 @@ namespace CDC {
     /// @param Cfg Config object which stores list
     /// @param List Setting object where to set found List
     /// @return true in case of successful gettting else false
-    bool GetListFromCfg(string ListName, Config &Cfg, Setting &List);
+    bool GetListFromCfg(std::string ListName, Config &Cfg, Setting &List);
 
     /// @fn int CDC::GetGroupFromList(Setting &List, string Entry, string EntryVal)
     /// @brief Get index of group of list with specified entry
@@ -40,7 +41,7 @@ namespace CDC {
     /// @param Entry entry name
     /// @param EntryVal entry values
     /// @return Grpup Index of list else -1
-    int GetGroupFromList(Setting &List, string Entry, string EntryVal);
+    int GetGroupFromList(Setting &List, std::string Entry, std::string EntryVal);
     // -----------------------------------------------------------------------
 
     // user functions
@@ -51,7 +52,7 @@ namespace CDC {
     /// @param ConfigPath path to .cfg file
     /// @param Entry path entry to get from .cfg file
     /// @return [string] entry from cfg file. In case of fail returns empty string.
-    string GetEntryFromConfig(string ConfigPath, string Entry);
+    std::string GetEntryFromConfig(std::string ConfigPath, std::string Entry);
 
     /// @fn bool CDC::CheckEntryOfGroupInList(string ConfigPath,
     ///               string ListName, string Entry, string EntryValue)
@@ -62,7 +63,8 @@ namespace CDC {
     /// @param Entry name of entry of group of list
     /// @param EntryValue value of entry
     /// @return True in case of success otherwise false
-    bool CheckEntryOfGroupInList(string ConfigPath, string ListName, string Entry, string EntryValue);
+    bool CheckEntryOfGroupInList(std::string ConfigPath, std::string ListName,
+                                 std::string Entry, std::string EntryValue);
 
     /*
     /// @fn bool CDC::CheckEntriesInList(string ConfigPath, string ListName, string Entries[], string EntryValues[], int Num)
@@ -88,8 +90,8 @@ namespace CDC {
     /// @param entry_1_val value of the first entry [string]
     /// @param entry_2_val value of the second entry [unsigned short]
     /// @return True in case of success otherwise false
-    bool AddGroupToList(string ConfigPath, string ListName, string entry_1,
-                        string entry_2, string entry_1_val, unsigned short entry_2_val);
+    bool AddGroupToList(std::string ConfigPath, std::string ListName, std::string entry_1,
+                        std::string entry_2, std::string entry_1_val, unsigned short entry_2_val);
 
     /// @fn bool CDC::DeleteGroupFromList(string ConfigPath, string ListName, string Entry, string EntryVal)
     /// @brief Remove group entry from list of cfg
@@ -99,7 +101,8 @@ namespace CDC {
     /// @param Entry name of the entry in list
     /// @param EntryVal value of the fentry
     /// @return True in case of success otherwise false
-    bool DeleteGroupFromList(string ConfigPath, string ListName, string Entry, string EntryVal);
+    bool DeleteGroupFromList(std::string ConfigPath, std::string ListName,
+                             std::string Entry, std::string EntryVal);
 
     /// @fn CDC::bool AddEntryToGroupOfList(Setting &List, int GroupIndex,
     ///                                     string Entry, string EntryVal);
@@ -109,8 +112,8 @@ namespace CDC {
     /// @param Entry name of the entry
     /// @param EntryVal value of the entry
     /// @return True in case of success otherwise false
-    bool AddEntryToGroupOfList(Setting &List, int GroupIndex
-                               string Entry, string EntryVal);
+    bool AddEntryToGroupOfList(Setting &List, int GroupIndex,
+                               std::string Entry, std::string EntryVal);
 
     /// @fn CDC::bool DeleteEntryOfGroupOfList(Setting &List, int GroupIndex,
     ///                                        string Entry);
@@ -119,11 +122,11 @@ namespace CDC {
     /// @param GroupIndex index of group of list
     /// @param Entry name of the entry
     /// @return True in case of success otherwise false
-    bool DeleteEntryOfGroupOfList(Setting &List, int GroupIndex, string Entry);
+    bool DeleteEntryOfGroupOfList(Setting &List, int GroupIndex, std::string Entry);
 
-    /// @fn CDC::bool UpdateGroupOfList(string ConfigPath, string ListName,
-    ///                                 string FindEntry, string SetEntry,
-    ///                                 string FindEntryVal, string SetEntryVal);
+    /// @fn CDC::bool UpdateGroupOfList(std::string ConfigPath, std::string ListName,
+    ///                                 std::string FindEntry, std::string SetEntry,
+    ///                                 std::string FindEntryVal, std::string SetEntryVal);
     /// @brief Update entry of list's group
     /// @param ConfigPath path to .cfg
     /// @param ListName name of list on cfg file
@@ -132,9 +135,9 @@ namespace CDC {
     /// @param FindEntryVal entry value which will help find required group
     /// @param SetEntryVal entry value which will been written to found group
     /// @return True in case of success otherwise false
-    bool UpdateGroupOfList(string ConfigPath, string ListName,
-                        string FindEntry, string SetEntry,
-                        string FindEntryVal, string SetEntryVal);
+    bool UpdateGroupOfList(std::string ConfigPath, std::string ListName,
+                        std::string FindEntry, std::string SetEntry,
+                        std::string FindEntryVal, std::string SetEntryVal);
     // -----------------------------------------------------------------------
 
 }

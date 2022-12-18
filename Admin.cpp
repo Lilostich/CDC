@@ -1,13 +1,12 @@
 #include "Admin.hpp"
-#include
+
+#include <fstream>
 
 using namespace CDC;
 
-CDC::Admin::Admin(string MainCFG) {
-    string tmp_str;
-
+CDC::Admin::Admin(std::string MainCFG) {
     // read LoginFilePath
-    string tmp_str = GetEntryFromConfig(MainCFG, "SysLogin");
+    std::string tmp_str = GetEntryFromConfig(MainCFG, "SysLogin");
     if (tmp_str.empty()) {
         throw std::invalid_argument("Error to read Login Path from CFG file");
     } else {
@@ -15,7 +14,7 @@ CDC::Admin::Admin(string MainCFG) {
     }
 
     // read EnteredUsersPath
-    string tmp_str = GetEntryFromConfig(MainCFG, "SysEntered");
+    tmp_str = GetEntryFromConfig(MainCFG, "SysEntered");
     if (tmp_str.empty()) {
         throw std::invalid_argument("Error to read Entered Users Path from CFG file");
     } else {
@@ -23,7 +22,7 @@ CDC::Admin::Admin(string MainCFG) {
     }
 
     // read EmregencyPath
-    string tmp_str = GetEntryFromConfig(MainCFG, "SysEmergency");
+    tmp_str = GetEntryFromConfig(MainCFG, "SysEmergency");
     if (tmp_str.empty()) {
         throw std::invalid_argument("Error to read Emeregency Path from CFG file");
     } else {
@@ -32,7 +31,7 @@ CDC::Admin::Admin(string MainCFG) {
 }
 
 
-int CDC::Admin::AddUser(string login, unsigned short secure_level) {
+int CDC::Admin::AddUser(std::string login, unsigned short secure_level) {
     // check login existance
     if (CheckEntryOfGroupInList(LoginFilePath, "users", "login", login))
         return true;
@@ -43,7 +42,7 @@ int CDC::Admin::AddUser(string login, unsigned short secure_level) {
 }
 
 
-int CDC::Admin::DeleteUser(string login); {
+int CDC::Admin::DeleteUser(std::string login); {
     // check login existance
     if (! CheckEntryOfGroupInList(LoginFilePath, "users", "login", login))
         return true;
@@ -53,7 +52,7 @@ int CDC::Admin::DeleteUser(string login); {
 }
 
 
-int CDC::Admin::SetLevel(string login, unsigned short secure_level) {
+int CDC::Admin::SetLevel(std::string login, unsigned short secure_level) {
     // check login existance
     if (! CheckEntryOfGroupInList(LoginFilePath, "users", "login", login))
         return false;
@@ -64,15 +63,15 @@ int CDC::Admin::SetLevel(string login, unsigned short secure_level) {
 
 
 void CDC::Admin::BanAll(){
-    ofstream ofs;
-    ofs.open("test.txt", ofstream::out | ofstream::trunc);
-    off << "1";
+    std::ofstream ofs;
+    ofs.open("test.txt", std::ofstream::out | std::ofstream::trunc);
+    ofs << "1";
     ofs.close();
 }
 
-void CDC::Admin::UnBanAll(){
-    ofstream ofs;
-    ofs.open("test.txt", ofstream::out | ofstream::trunc);
+void CDC::Admin::UnbanAll(){
+    std::ofstream ofs;
+    ofs.open("test.txt", std::ofstream::out | std::ofstream::trunc);
     ofs << "0";
     ofs.close();
 }

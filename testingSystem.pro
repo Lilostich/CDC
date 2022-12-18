@@ -11,6 +11,9 @@ CONFIG += c++11
 INLCUDEPATH += gui
 
 SOURCES += \
+    Admin.cpp \
+    Config.cpp \
+    Service.cpp \
     gui/adding_form.cpp \
     gui/admining.cpp \
     gui/admining_details.cpp \
@@ -25,6 +28,8 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    Admin.hpp \
+    Config.hpp \
     gui/adding_form.h \
     gui/admining.h \
     gui/admining_details.h \
