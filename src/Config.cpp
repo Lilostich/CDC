@@ -121,7 +121,6 @@ bool CDC::CheckGroup_InConfig(string ConfigPath, string GroupName){
         cfg.lookup(GroupName);
         return true;
     } catch (const SettingNotFoundException &nfex) {
-        cerr << "No " << GroupName << " group in configuration file " << ConfigPath << endl;
         return false;
     }
 }
@@ -326,7 +325,7 @@ bool CDC::DeleteEntryOfGroupOfList(Setting* List, int GroupIndex, string Entry){
     try {
         Group.remove(Entry);
     } catch (const SettingNotFoundException &ex) {
-        cerr << "No" << Entry << "setting in Group" << endl;
+        cerr << "No" << Entry << "setting to Group" << endl;
         return false;
     }
 

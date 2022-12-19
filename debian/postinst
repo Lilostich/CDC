@@ -26,7 +26,7 @@ echo "[Install] Add user $CDC_USER"
 useradd -M -s /bin/bash -U $CDC_USER
 
 # create dirs
-MASK_ACCESS="0007"
+MASK_ACCESS="0660"
 echo "[Install] Create file structure with access mask $MASK_ACCESS"
 mkdir -m $MASK_ACCESS -p $CDC_ROOT 
 mkdir -m $MASK_ACCESS -p $CDC_PROJECTS $CDC_LISTS $CDC_TESTS $CDC_TESTS_BIN
@@ -48,3 +48,4 @@ echo 0 > $CDC_EMERGENCY
 # chown
 echo "[Install] Set $CDC_USER as owner of file structure"
 chown -R $CDC_USER:$CDC_USER $CDC_ROOT
+chmod -R ug+rwx $CDC_ROOT

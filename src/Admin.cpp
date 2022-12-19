@@ -73,15 +73,15 @@ bool CDC::Admin::SetLevel(string login, unsigned short secure_level) {
 
 void CDC::Admin::BanAll(){
     ofstream ofs;
-    ofs.open("test.txt", ofstream::out | ofstream::trunc);
-    ofs << "1";
+    ofs.open(EmergencyPath, ofstream::out | ofstream::trunc);
+    ofs << "1" << endl;
     ofs.close();
 }
 
 void CDC::Admin::UnBanAll(){
     ofstream ofs;
-    ofs.open("test.txt", ofstream::out | ofstream::trunc);
-    ofs << "0";
+    ofs.open(EmergencyPath, ofstream::out | ofstream::trunc);
+    ofs << "0" << endl;
     ofs.close();
 }
 
