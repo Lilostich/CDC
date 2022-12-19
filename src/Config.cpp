@@ -42,15 +42,25 @@ bool CDC::GetListFromCfg(string ListName, Config &Cfg, Setting* List){
 }
 
 
-int CDC::GetGroupFromList(Setting* List, string Entry, string EntryVal){
+int CDC::GetGroupIndexFromList(Setting* List, string Entry, string EntryVal){
     // find entry in group
     string tmp_value = "";
-    for (auto it = List->begin(); it < List->end(); it++) {
+    int list_length = List->getLength();
+    for (int i = 0; i < list_length; i++) {
+        Setting &list_entry = (*List)[i];
+        list_entry.lookupValue(Entry, tmp_value);  // write found entry to tmp_value
+        if (tmp_value == EntryVal) {
+            return list_entry.getIndex();
+        }
+    }
+    /*
+    for (iterator it = List->begin(); it != List->end(); it++) {
         it->lookupValue(Entry, tmp_value);  // write found entry to tmp_value
         if (tmp_value == EntryVal) {
             return it->getIndex();
         }
     }
+    */
 
     return -1;
 }
@@ -60,7 +70,7 @@ int CDC::GetGroupFromList(Setting* List, string Entry, string EntryVal){
 
 // User functions
 // ---------------------------------------------------------------------------
-string CDC::GetEntryFromConfig(string ConfigPath, string Entry) {
+string CDC::GetEntry_InConfig(string ConfigPath, string Entry) {
     Config cfg;
     string answer = "";
 
@@ -92,11 +102,128 @@ bool CDC::CheckEntryOfGroupInList(string ConfigPath, string ListName, string Ent
     if (! GetListFromCfg(ListName, cfg, List))
         return false;
 
-    if (GetGroupFromList(List, Entry, EntryValue) != -1)
+    if (GetGroupIndexFromList(List, Entry, EntryValue) != -1)
         return true;
 
     return false;
 }
+
+// Group in cfg: 1 tree level
+// ---------------------------------------------------------------------------
+bool CDC::CheckGroup_InConfig(string ConfigPath, string GroupName){
+    // read config
+    Config cfg;
+    if (! OpenCfg(ConfigPath, cfg))
+        return false;
+
+    // Find group
+    try {
+        cfg.lookup(GroupName);
+        return true;
+    } catch (const SettingNotFoundException &nfex) {
+        cerr << "No " << GroupName << " group in configuration file " << ConfigPath << endl;
+        return false;
+    }
+}
+
+
+// add int value
+bool CDC::AddGroup_InConfig(string ConfigPath, string GroupName, string Field, unsigned short EntryVal){
+    // read config
+    Config cfg;
+    if (! OpenCfg(ConfigPath, cfg))
+        return false;
+
+    // get root of cfg
+    Setting& Root = cfg.getRoot();
+
+    if (! CheckGroup_InConfig(ConfigPath, GroupName)) {
+    // if group does not exist -> add this group
+        Setting& group = Root.add(GroupName, Setting::TypeGroup);
+        group.add(Field, Setting::TypeInt) = EntryVal;
+
+        // write updated cfg
+        cfg.writeFile(ConfigPath.c_str());
+        return true;
+
+    } else {
+    // if group exists -> add or update field
+        // get Group
+        Setting& group = Root[GroupName.c_str()];
+
+        // if field exists -> remove
+        if (group.exists(Field.c_str()))
+            group.remove(Field.c_str());
+
+        // add field
+        group.add(Field, Setting::TypeInt) = EntryVal;
+        // write updated cfg
+        cfg.writeFile(ConfigPath.c_str());
+        return true;
+    }
+}
+
+
+// add string value
+bool CDC::AddGroup_InConfig(string ConfigPath, string GroupName, string Field, string EntryVal){
+    // read config
+    Config cfg;
+    if (! OpenCfg(ConfigPath, cfg))
+        return false;
+
+    // get root of cfg
+    Setting& Root = cfg.getRoot();
+
+    if (! CheckGroup_InConfig(ConfigPath, GroupName)) {
+    // if group does not exist -> add this group
+        Setting& group = Root.add(GroupName, Setting::TypeGroup);
+        group.add(Field, Setting::TypeString) = EntryVal.c_str();
+
+        // write updated cfg
+        cfg.writeFile(ConfigPath.c_str());
+        return true;
+
+    } else {
+    // if group exists -> add or update field
+        // get Group
+        Setting& group = Root[GroupName.c_str()];
+
+        // if field exists -> remove
+        if (group.exists(Field.c_str()))
+            group.remove(Field.c_str());
+
+        // add field
+        group.add(Field, Setting::TypeString) = EntryVal.c_str();
+        // write updated cfg
+        cfg.writeFile(ConfigPath.c_str());
+        return true;
+    }
+}
+
+
+bool CDC::DelGroup_InConfig(string ConfigPath, string GroupName){
+    // read config
+    Config cfg;
+    if (! OpenCfg(ConfigPath, cfg))
+        return false;
+
+    // get root of cfg
+    Setting& Root = cfg.getRoot();
+
+    if (! CheckGroup_InConfig(ConfigPath, GroupName)) {
+    // if group does not exist -> OK
+        return true;
+
+    } else {
+    // if group exists -> remove
+        Root.remove(GroupName.c_str());
+
+        // write updated cfg
+        cfg.writeFile(ConfigPath.c_str());
+        return true;
+    }
+}
+// ---------------------------------------------------------------------------
 
 
 /*
@@ -176,7 +303,7 @@ bool CDC::DeleteGroupFromList(string ConfigPath, string ListName,
         return false;
 
     // find and remove required entry
-    int index = GetGroupFromList(List, Entry, EntryVal);
+    int index = GetGroupIndexFromList(List, Entry, EntryVal);
     if (index != - 1) {
         List->remove(index);
         return true;
@@ -221,7 +348,7 @@ bool CDC::UpdateGroupOfList(string ConfigPath, string ListName,
         return false;
 
     // find required group with entry
-    int index = GetGroupFromList(List, Entry_1, EntryVal_1);
+    int index = GetGroupIndexFromList(List, Entry_1, EntryVal_1);
 
     if (! DeleteEntryOfGroupOfList(List, index, Entry_2))
         return false;

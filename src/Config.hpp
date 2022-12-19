@@ -31,7 +31,7 @@ namespace CDC {
     /// @brief Check existing of List in cfg object, set List from cfg to List variable
     /// @param ListName name of list entry in cfg
     /// @param Cfg Config object which stores list
-    /// @param List Setting object where to set found List
+    /// @param List Setting object where to set found List (write list to this param)
     /// @return true in case of successful gettting else false
     bool GetListFromCfg(string ListName, Config &Cfg, Setting* List);
 
@@ -41,29 +41,68 @@ namespace CDC {
     /// @param Entry entry name
     /// @param EntryVal entry values
     /// @return Group Index of list else -1
-    int GetGroupFromList(Setting* List, string Entry, string EntryVal);
+    int GetGroupIndexFromList(Setting* List, string Entry, string EntryVal);
     // -----------------------------------------------------------------------
 
     // user functions
     // -----------------------------------------------------------------------
-    /// @fn string CDC::GetEntryFromConfig(string ConfigPath, string Entry)
+    /// @fn string CDC::GetEntry_InConfig(string ConfigPath, string Entry)
     /// @brief Function allows read simple string entry from .cfg file
     /// @details Print info to stderr in case of some error
     /// @param ConfigPath path to .cfg file
     /// @param Entry path entry to get from .cfg file
     /// @return [string] entry from cfg file. In case of fail returns empty string.
-    string GetEntryFromConfig(string ConfigPath, string Entry);
+    string GetEntry_InConfig(string ConfigPath, string Entry);
 
     /// @fn bool CDC::CheckEntryOfGroupInList(string ConfigPath,
     ///               string ListName, string Entry, string EntryValue)
-    /// @brief Check entry value of specified group in specified list
-    /// @details Check only the first level of cfg tree. Print info to stderr in case of some error
+    /// @brief Check entry value of group in specified list
+    /// @details Check, that specified entry exists in some group of list.
+    ///          Check only the first level of cfg tree. Print info to stderr in case of some error.
     /// @param ConfigPath path to .cfg file
     /// @param ListName name of list
     /// @param Entry name of entry of group of list
     /// @param EntryValue value of entry
     /// @return True in case of success otherwise false
     bool CheckEntryOfGroupInList(string ConfigPath, string ListName, string Entry, string EntryValue);
+
+
+    // Group in cfg: 1 tree level (for example: login file)
+    // -----------------------------------------------------------------------
+    /// @fn bool CDC::CheckGroup_InConfig(string ConfigPath, string GroupName)
+    /// @brief Check group in cfg file
+    /// @details Check only the first level of cfg tree. Print info to stderr in case of some error.
+    ///          For cfg file with groups only (1 level of tree).
+    /// @param ConfigPath path to .cfg file
+    /// @param GroupName name cfg file
+    /// @return True in case of success otherwise false
+    bool CheckGroup_InConfig(string ConfigPath, string GroupName);
+
+    /// @fn bool CDC::AddGroup_InConfig(string ConfigPath, string GroupName, string Field, unsigned short EntryVal)
+    /// @brief Add group into cfg file, Add or update Field with EntryVal.
+    /// @details Check only the first level of cfg tree. Print info to stderr in case of some error.
+    ///          For cfg file with groups only (1 level of tree). If group does not exist -> add group.
+    ///          If Field exist -> update field.
+    /// @param ConfigPath path to .cfg file
+    /// @param GroupName name cfg file
+    /// @param Field field in group
+    /// @param EntryVal Value to add into group by Field
+    /// @return True in case of success otherwise false
+    bool AddGroup_InConfig(string ConfigPath, string GroupName, string Field, unsigned short EntryVal);
+
+    /// @fn bool CDC::AddGroup_InConfig(string ConfigPath, string GroupName, string Field, string EntryVal)
+    /// @brief Overload the previous function.
+    bool AddGroup_InConfig(string ConfigPath, string GroupName, string Field, string EntryVal);
+
+    /// @fn bool CDC::DelGroup_InConfig(LoginFilePath, login)
+    /// @brief Delete group from cfg file.
+    /// @details Check only the first level of cfg tree. Print info to stderr in case of some error.
+    ///          For cfg file with groups only (1 level of tree). If group does not exist -> return true.
+    /// @param ConfigPath path to .cfg file
+    /// @param GroupName name cfg file
+    /// @return True in case of success otherwise false
+    bool DelGroup_InConfig(string ConfigPath, string GroupName);
+    // -----------------------------------------------------------------------
 
     /*
     /// @fn bool CDC::CheckEntriesInList(string ConfigPath, string ListName, string Entries[], string EntryValues[], int Num)
@@ -89,6 +128,7 @@ namespace CDC {
     /// @param entry_1_val value of the first entry [string]
     /// @param entry_2_val value of the second entry [unsigned short]
     /// @return True in case of success otherwise false
+    // TODO: template?
     bool AddGroupToList(string ConfigPath, string ListName, string entry_1,
                         string entry_2, string entry_1_val, unsigned short entry_2_val);
 
