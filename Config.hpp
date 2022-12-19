@@ -3,7 +3,8 @@
 #define CDC_CONFIG_HPP
 
 #include <string.h>
-#include <libconfig.h>      // Read cfg files
+#include <libconfig.h++>      // Read cfg files
+#include <iostream>
 
 using namespace libconfig;
 using namespace std;
@@ -32,15 +33,15 @@ namespace CDC {
     /// @param Cfg Config object which stores list
     /// @param List Setting object where to set found List
     /// @return true in case of successful gettting else false
-    bool GetListFromCfg(string ListName, Config &Cfg, Setting &List);
+    bool GetListFromCfg(string ListName, Config &Cfg, Setting* List);
 
     /// @fn int CDC::GetGroupFromList(Setting &List, string Entry, string EntryVal)
     /// @brief Get index of group of list with specified entry
     /// @param List setting object
     /// @param Entry entry name
     /// @param EntryVal entry values
-    /// @return Grpup Index of list else -1
-    int GetGroupFromList(Setting &List, string Entry, string EntryVal);
+    /// @return Group Index of list else -1
+    int GetGroupFromList(Setting* List, string Entry, string EntryVal);
     // -----------------------------------------------------------------------
 
     // user functions
@@ -109,7 +110,7 @@ namespace CDC {
     /// @param Entry name of the entry
     /// @param EntryVal value of the entry
     /// @return True in case of success otherwise false
-    bool AddEntryToGroupOfList(Setting &List, int GroupIndex
+    bool AddEntryToGroupOfList(Setting* List, int GroupIndex,
                                string Entry, string EntryVal);
 
     /// @fn CDC::bool DeleteEntryOfGroupOfList(Setting &List, int GroupIndex,
@@ -119,7 +120,7 @@ namespace CDC {
     /// @param GroupIndex index of group of list
     /// @param Entry name of the entry
     /// @return True in case of success otherwise false
-    bool DeleteEntryOfGroupOfList(Setting &List, int GroupIndex, string Entry);
+    bool DeleteEntryOfGroupOfList(Setting* List, int GroupIndex, string Entry);
 
     /// @fn CDC::bool UpdateGroupOfList(string ConfigPath, string ListName,
     ///                                 string FindEntry, string SetEntry,
