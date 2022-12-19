@@ -54,6 +54,20 @@ namespace CDC {
     /// @return [string] entry from cfg file. In case of fail returns empty string.
     string GetEntry_InConfig(string ConfigPath, string Entry);
 
+    /// @fn string CDC::GetStringEntry_InGroup(string ConfigPath, string GroupName, string Field)
+    /// @brief Get field of the specified group of Config file
+    /// @details 1 level tree
+    /// @param ConfigPath path to .cfg file
+    /// @param GroupName name of group
+    /// @param Field field
+    /// @return [string] entry from group of cfg file. In case of fail returns empty string.
+    string CDC::GetStringEntry_InGroup(string ConfigPath, string GroupName, string Field);
+
+    /// @fn string CDC::GetIntEntry_InGroup(string ConfigPath, string GroupName, string Field)
+    /// @brief As GetStringEntry_InGroup, but return int value
+    /// @return [int] entry from group of cfg file. In case of fail returns -1.
+    int CDC::GetIntEntry_InGroup(string ConfigPath, string GroupName, string Field);
+
     /// @fn bool CDC::CheckEntryOfGroupInList(string ConfigPath,
     ///               string ListName, string Entry, string EntryValue)
     /// @brief Check entry value of group in specified list
@@ -88,7 +102,7 @@ namespace CDC {
     /// @param Field field in group
     /// @param EntryVal Value to add into group by Field
     /// @return True in case of success otherwise false
-    bool AddGroup_InConfig(string ConfigPath, string GroupName, string Field, unsigned short EntryVal);
+    bool AddGroup_InConfig(string ConfigPath, string GroupName, string Field, int EntryVal);
 
     /// @fn bool CDC::AddGroup_InConfig(string ConfigPath, string GroupName, string Field, string EntryVal)
     /// @brief Overload the previous function.
@@ -118,7 +132,7 @@ namespace CDC {
     bool CheckEntriesInList(string ConfigPath, string ListName, string Entries[], string EntryValues[], int num);
     */
 
-    /// @fn CDC::AddGroupToList(string ConfigPath, string ListName, string entry_1,
+    /// @fn bool CDC::AddGroupToList(string ConfigPath, string ListName, string entry_1,
     ///                         string entry_2, string entry_1_val, unsigned short entry_2_val)
     /// @brief Add group entry to list of cfg
     /// @details Check only the first level of cfg tree. Print info to stderr in case of some error
@@ -142,7 +156,7 @@ namespace CDC {
     /// @return True in case of success otherwise false
     bool DeleteGroupFromList(string ConfigPath, string ListName, string Entry, string EntryVal);
 
-    /// @fn CDC::bool AddEntryToGroupOfList(Setting &List, int GroupIndex,
+    /// @fn bool CDC::AddEntryToGroupOfList(Setting &List, int GroupIndex,
     ///                                     string Entry, string EntryVal);
     /// @brief Add entry to group with specified index of List
     /// @param List Setting object
@@ -153,7 +167,7 @@ namespace CDC {
     bool AddEntryToGroupOfList(Setting* List, int GroupIndex,
                                string Entry, string EntryVal);
 
-    /// @fn CDC::bool DeleteEntryOfGroupOfList(Setting &List, int GroupIndex,
+    /// @fn bool CDC::DeleteEntryOfGroupOfList(Setting &List, int GroupIndex,
     ///                                        string Entry);
     /// @brief Remove entry of group with specified index of List
     /// @param List Setting object
@@ -162,7 +176,7 @@ namespace CDC {
     /// @return True in case of success otherwise false
     bool DeleteEntryOfGroupOfList(Setting* List, int GroupIndex, string Entry);
 
-    /// @fn CDC::bool UpdateGroupOfList(string ConfigPath, string ListName,
+    /// @fn bool CDC::UpdateGroupOfList(string ConfigPath, string ListName,
     ///                                 string FindEntry, string SetEntry,
     ///                                 string FindEntryVal, string SetEntryVal);
     /// @brief Update entry of list's group

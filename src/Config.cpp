@@ -83,7 +83,56 @@ string CDC::GetEntry_InConfig(string ConfigPath, string Entry) {
         const char* tmp_answer = cfg.lookup(Entry);
         answer = tmp_answer;
     } catch (const SettingNotFoundException &nfex) {
-        cerr << "No" << Entry << "setting in configuration file " << ConfigPath << endl;
+        cerr << "No " << Entry << " setting in configuration file " << ConfigPath << endl;
+    }
+
+    return answer;
+}
+
+
+string CDC::GetStringEntry_InGroup(string ConfigPath, string GroupName, string Field) {
+    Config cfg;
+    string answer = "";
+
+    // read config
+    if (! OpenCfg(ConfigPath, cfg))
+        return answer;
+
+    // Get and set the Login File Path.
+    try {
+        Setting& Group = cfg.lookup(GroupName);
+        try {
+            const char* tmp_answer = Group.lookup(Field);
+            answer = tmp_answer;
+        } catch (const SettingNotFoundException &nfex) {
+            cerr << "No " << Field << " setting in group " << GroupName << endl;
+        }
+    } catch (const SettingNotFoundException &nfex) {
+        cerr << "No " << GroupName << " setting in configuration file " << ConfigPath << endl;
+    }
+
+    return answer;
+}
+
+
+int CDC::GetIntEntry_InGroup(string ConfigPath, string GroupName, string Field) {
+    Config cfg;
+    int answer = -1;
+
+    // read config
+    if (! OpenCfg(ConfigPath, cfg))
+        return answer;
+
+    // Get and set the Login File Path.
+    try {
+        Setting& Group = cfg.lookup(GroupName);
+        try {
+            int answer = Group.lookup(Field);
+        } catch (const SettingNotFoundException &nfex) {
+            cerr << "No " << Field << " setting in group " << GroupName << endl;
+        }
+    } catch (const SettingNotFoundException &nfex) {
+        cerr << "No " << GroupName << " setting in configuration file " << ConfigPath << endl;
     }
 
     return answer;
@@ -127,7 +176,7 @@ bool CDC::CheckGroup_InConfig(string ConfigPath, string GroupName){
 
 
 // add int value
-bool CDC::AddGroup_InConfig(string ConfigPath, string GroupName, string Field, unsigned short EntryVal){
+bool CDC::AddGroup_InConfig(string ConfigPath, string GroupName, string Field, int EntryVal){
     // read config
     Config cfg;
     if (! OpenCfg(ConfigPath, cfg))
