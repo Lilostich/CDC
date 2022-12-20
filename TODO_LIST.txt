@@ -1,0 +1,77 @@
+1. Определиться что такое сессия
+    --- Сессия это файл соответствует одному запуску выбранных тестов
+    --- Хранит в себе список файлов отчетов
+    --- Файл отчет - хранит в себе вывод просто
+
+Q\A
+Если таски храняться каждый в своем проекте, то task_path - куда указывать должен?
+Какая информация должна записываться в метафайл сессии а) при создании б) когда то еще(есть ли такие моменты)
+-------------------Директории------------------------------------------------
+Расположение папок по андрею:
+ - CDC
+ |- all_login_pass.meta
+ |- actual_users.meta
+ |- pull tests
+ |- pull lists
+ |- projects
+  |- project_dir
+   |- task dir1
+    |- task1_meta.meta
+   |- task dir2
+    |- task2_meta.meta
+-------------------Прогресс--------------------------------------------------
+Test_omnimanager(8/8/0)
+    + add_test_to_list
+    + add_test_to_run
+    + add_list_to_run
+    + delete_test
+    + delete_test_from_list
+    + delete_test_from_run
+    + delete_list
+    + delete_list_from_run
+
+Test_manager(11/5/6)
+    + run_auto_test - запуск с сохранением вывода в файл
+    - run_auto_list - рекурсивно вызывается запуски тестов (зависит от формата мета файлов таска и набора)
+    - run_auto_task - рекурсивно вызывается запуски тестов (зависит от формата мета файлов таска и набора)
+    - save_manual_test - Функция чисто гуишки
+    - save_manual_list - Функция чисто гуишки
+    - save_manual_task - Функция чисто гуишки
+    + get_lists
+    + get_tests
+    + get_runs
+    +- create_session
+    - kill_run - как опознавать кого нужно убить?
+
+TASK_manager(12/2/10)
+    - update_unchecked_tasks - пройти по всем таскам
+    - check_task - хз структура метафайла таска и что туда заносится
+    + print_list_project - вывод в консоль(нужно так?)
+    + print_list_task - вывод в консоль(нужно так?)
+    - run_test_manager(...)
+    - run_test_manager()
+    - close_task - структура метафайла таска
+    - send_run - нужен Qjson
+    - send_run_result - нужен Qjson
+
+    - fit_task_answer - нужен Qjson - формат ответа какой?
+    - send_result - нужен Qjson
+    - run_test_omnimanager - что значит запустить омнименедежер? запустить таск?
+
+secure_manager(5/0/5) // Андрей начал делать
+    - enter - работа с файлами (QJson)
+    - exit - работа с файлами (QJson)
+    - regist - работа с файлами (QJson)
+    - hide - crc/ еще какие то функции
+    - check_capability - какая функция чему соответствует
+
+
+----------------------------------------------------------------------------------
+
+все мета файлы с .meta
+
+test
+    - "exec" : "имя питон скрипта"
+
+test_suite
+    - "tests" : [имена тестов]
