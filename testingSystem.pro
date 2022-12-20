@@ -14,6 +14,14 @@ SOURCES += \
     Admin.cpp \
     Config.cpp \
     Service.cpp \
+    core/Admin.cpp \
+    core/Config.cpp \
+    core/Service.cpp \
+    core/admin_manager.cpp \
+    core/secure_manager.cpp \
+    core/task_manager.cpp \
+    core/test_manager.cpp \
+    core/test_omnimanager.cpp \
     gui/adding_form.cpp \
     gui/admining.cpp \
     gui/admining_details.cpp \
@@ -30,6 +38,13 @@ SOURCES += \
 HEADERS += \
     Admin.hpp \
     Config.hpp \
+    core/Admin.hpp \
+    core/Config.hpp \
+    core/admin_manager.h \
+    core/secure_manager.h \
+    core/task_manager.h \
+    core/test_manager.h \
+    core/test_omnimanager.h \
     gui/adding_form.h \
     gui/admining.h \
     gui/admining_details.h \

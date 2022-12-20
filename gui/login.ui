@@ -110,7 +110,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="button_regestration">
        <property name="text">
         <string>Регистрация</string>
        </property>
@@ -130,7 +130,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="button_enter">
        <property name="text">
         <string>Вход</string>
        </property>
@@ -150,6 +150,13 @@
       </spacer>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QPushButton" name="button_change_password">
+     <property name="text">
+      <string>Сменить пароль</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
