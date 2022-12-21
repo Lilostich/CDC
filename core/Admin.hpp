@@ -5,7 +5,7 @@
 #include <fstream>
 
 #include "Config.hpp"           // cfg work
-#include "core/Base.hpp"             // constants
+#include "Base.hpp"             // constants
 
 
 /// @class CDC::Admin
@@ -21,7 +21,7 @@ namespace CDC {
             /// @fn CDC::Admin(string MainCFG)
             /// @brief Init Admin class via CFG file
             /// @param ConfigPath path to .cfg file
-            Admin(std::string MainCFG);
+            Admin(string MainCFG);
 
             ~Admin(){};
 
@@ -38,21 +38,21 @@ namespace CDC {
             /// @param login string
             /// @param secure_level level
             /// @return true in case of success or login is in cfg else false
-            bool AddUser(std::string login, unsigned short secure_level);
+            bool AddUser(string login, unsigned short secure_level);
 
             /// @fn bool CDC::Admin::DeleteUser(string login)
             /// @brief Delete User from Login file
             /// @details If user exists return true
             /// @param login string
             /// @return true in case of success or login is not in cfg else false
-            bool DeleteUser(std::string login);
+            bool DeleteUser(string login);
 
             /// @fn bool CDC::Admin::SetLevel(string login)
             /// @brief Update secure level for login. Func does not add new user
             /// @param login login value
             /// @param secure_level secure level
             /// @return true in case of success else false
-            bool SetLevel(std::string login, unsigned short secure_level);
+            bool SetLevel(string login, unsigned short secure_level);
             // ---------------------------------------------------------------
 
             // emergency managment
@@ -71,9 +71,9 @@ namespace CDC {
 
 
         private:
-            std::string LoginFilePath;
-            std::string EnteredUsersPath;
-            std::string EmergencyPath;
+            string LoginFilePath;
+            string EnteredUsersPath;
+            string EmergencyPath;
     };
 
 }

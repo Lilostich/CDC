@@ -1,7 +1,7 @@
 #ifndef SECURE_MANAGER_H
 #define SECURE_MANAGER_H
 
-#include <task_manager.h>
+#include "task_manager.h"
 
 class Secure_manager
 {
@@ -12,13 +12,12 @@ public:
     void exit(std::string login);
 protected:
     enum secure_level {
-        admin,
-        test_analit,
-        tester
+        admin = 0,
+        test_analit = 1,
+        tester = 2
     };
 private:
     static std::string login_file_path;
-
 
     secure_level level;
 
@@ -28,7 +27,7 @@ private:
     /// hash
     std::string hide(std::string pass);
 
-    void check_capability (secure_level);
+    int check_capability (secure_level);
 };
 
 #endif // SECURE_MANAGER_H

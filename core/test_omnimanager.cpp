@@ -60,7 +60,9 @@ void Test_omnimanager::add_test_to_list(std::string test_name, std::string list_
 
     QJsonDocument metaListDoc(QJsonDocument::fromJson(metaList));
     QJsonObject obj(metaListDoc.object());
-
+    QJsonValue v;
+    QVariant var;
+    v.toString().toStdString();
     QJsonArray tests = obj.find("tests").value().toArray();
     for (int i = 0; i < tests.size(); i++){
         if (tests[i].toString().toStdString() == test_name)

@@ -35,7 +35,7 @@ namespace CDC {
             /// @fn CDC::Secure(string MainCFG)
             /// @brief Init Secure class via CFG file
             /// @param ConfigPath path to .cfg file
-            Secure(std::string MainCFG);
+            Secure(string MainCFG);
 
             ~Secure(){};
 
@@ -50,7 +50,7 @@ namespace CDC {
             /// @brief Return hash of password via SHA512 method
             /// @param Passwd password string
             /// @return [string] password hash
-            std::string Hide(std::string Passwd);
+            string Hide(string Passwd);
 
             /// @fn bool CDC::Secure::Enter(string Login, string Passwd)
             /// @brief Enter of user to CDC app
@@ -62,7 +62,7 @@ namespace CDC {
             /// @param Login login
             /// @param Passwd password
             /// @return return true in case of success else false
-            bool Enter(std::string Login, std::string Passwd);
+            bool Enter(string Login, string Passwd);
 
             /// @fn bool CDC::Secure::Exit(bool exit)
             /// @brief Exit CDC app
@@ -76,7 +76,7 @@ namespace CDC {
             /// @param Login login
             /// @param Passwd password
             /// @return return true in case of success else false
-            bool Register(std::string Login, std::string Passwd);
+            bool Register(string Login, string Passwd);
 
             /// @fn bool CDC::Secure::CheckCapability()
             /// @brief Check access to secure level
@@ -87,12 +87,12 @@ namespace CDC {
 
 
         private:
-            std::string LoginFilePath;
-            std::string EnteredUsersPath;
-            std::string EmergencyPath;
+            string LoginFilePath;
+            string EnteredUsersPath;
+            string EmergencyPath;
             unsigned short SecureLevel;
 
-            std::string CurrentLogin;
+            string CurrentLogin;
 
             // secure private functions
             //bool invalidChar(char c);
