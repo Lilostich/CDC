@@ -64,18 +64,19 @@ namespace CDC {
             /// @return return true in case of success else false
             bool Enter(string Login, string Passwd);
 
-            /// @fn bool CDC::Exit::Exit()
+            /// @fn bool CDC::Secure::Exit(bool exit)
             /// @brief Exit CDC app
+            /// @param ExitVal value, if = 1 close prog else remove entry only
             /// @details - Del entry from Entered File
-            ///          - (?) exit app (?)
-            void Exit();
+            ///          - if exit = 1 close prog
+            void Exit(bool ExitVal);
 
             /// @fn void CDC::Secure::Register(string Login, string Passwd)
             /// @brief Update password of user
             /// @param Login login
             /// @param Passwd password
             /// @return return true in case of success else false
-            void Register(string Login, string Passwd);
+            bool Register(string Login, string Passwd);
 
             /// @fn bool CDC::Secure::CheckCapability()
             /// @brief Check access to secure level
@@ -94,8 +95,8 @@ namespace CDC {
             string CurrentLogin;
 
             // secure private functions
-            bool invalidChar(char c);
-            void stripUnicode(std::string & str)
+            //bool invalidChar(char c);
+            //void stripUnicode(std::string & str);
     };
 
 }

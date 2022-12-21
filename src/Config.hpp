@@ -54,6 +54,11 @@ namespace CDC {
     /// @return [string] entry from cfg file. In case of fail returns empty string.
     string GetEntry_InConfig(string ConfigPath, string Entry);
 
+    /// @fn int CDC::GetEntry_InConfig(string ConfigPath, string Entry)
+    /// @brief As above, but return int
+    /// @return [int] entry from cfg file. In case of fail returns -1.
+    int GetIntEntry_InConfig(string ConfigPath, string Entry);
+
     /// @fn string CDC::GetStringEntry_InGroup(string ConfigPath, string GroupName, string Field)
     /// @brief Get field of the specified group of Config file
     /// @details 1 level tree
@@ -61,12 +66,12 @@ namespace CDC {
     /// @param GroupName name of group
     /// @param Field field
     /// @return [string] entry from group of cfg file. In case of fail returns empty string.
-    string CDC::GetStringEntry_InGroup(string ConfigPath, string GroupName, string Field);
+    string GetStringEntry_InGroup(string ConfigPath, string GroupName, string Field);
 
     /// @fn string CDC::GetIntEntry_InGroup(string ConfigPath, string GroupName, string Field)
     /// @brief As GetStringEntry_InGroup, but return int value
     /// @return [int] entry from group of cfg file. In case of fail returns -1.
-    int CDC::GetIntEntry_InGroup(string ConfigPath, string GroupName, string Field);
+    int GetIntEntry_InGroup(string ConfigPath, string GroupName, string Field);
 
     /// @fn bool CDC::CheckEntryOfGroupInList(string ConfigPath,
     ///               string ListName, string Entry, string EntryValue)

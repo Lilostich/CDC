@@ -89,6 +89,24 @@ string CDC::GetEntry_InConfig(string ConfigPath, string Entry) {
     return answer;
 }
 
+int CDC::GetIntEntry_InConfig(string ConfigPath, string Entry) {
+    Config cfg;
+    int answer = -1;
+
+    // read config
+    if (! OpenCfg(ConfigPath, cfg))
+        return answer;
+
+    // Get and set the Login File Path.
+    try {
+        int answer = cfg.lookup(Entry);
+    } catch (const SettingNotFoundException &nfex) {
+        cerr << "No " << Entry << " setting in configuration file " << ConfigPath << endl;
+    }
+
+    return answer;
+}
+
 
 string CDC::GetStringEntry_InGroup(string ConfigPath, string GroupName, string Field) {
     Config cfg;
@@ -127,7 +145,7 @@ int CDC::GetIntEntry_InGroup(string ConfigPath, string GroupName, string Field) 
     try {
         Setting& Group = cfg.lookup(GroupName);
         try {
-            int answer = Group.lookup(Field);
+            answer = Group.lookup(Field);
         } catch (const SettingNotFoundException &nfex) {
             cerr << "No " << Field << " setting in group " << GroupName << endl;
         }

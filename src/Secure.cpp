@@ -1,4 +1,4 @@
-#include "Admin.hpp"
+#include "Secure.hpp"
 
 using namespace CDC;
 
@@ -32,7 +32,7 @@ void CDC::Secure::GetPaths(){
 }
 
 
-bool Enter(string Login, string Passwd){
+bool CDC::Secure::Enter(string Login, string Passwd){
     // check user existance
     if (! CheckGroup_InConfig(LoginFilePath, Login)) {
         cerr << "No such user: " << Login << endl;
@@ -68,8 +68,9 @@ bool Enter(string Login, string Passwd){
         // kill process
         int pid = GetIntEntry_InGroup(EnteredUsersPath, Login, "pid");
         if (pid != -1) {
-            string cmd = "kill " + to_string(pid) + "; sleep 1; kill -9 " + to_string(pid);
-            system(cmd);    // in shell :-)
+            cerr << "Process of " << Login << " was found -> kill " << pid << endl;
+            string cmd = "kill " + to_string(pid) + " 2> /dev/null; sleep 1; kill -9 " + to_string(pid) + " 2> /dev/null";
+            system(cmd.c_str());    // in shell :-)
         }
     }
 
@@ -85,22 +86,31 @@ bool Enter(string Login, string Passwd){
 }
 
 
-void Exit() {
+void CDC::Secure::Exit(bool ExitVal) {
     if (CheckGroup_InConfig(EnteredUsersPath, CurrentLogin))
         DelGroup_InConfig(EnteredUsersPath, CurrentLogin);
 
-    // TODO: THINK (maybe this must be inside of GUI)
-    exit(0);
+    if (ExitVal)
+        exit(0);
 }
 
 
 bool CDC::Secure::Register(string Login, string Passwd){
+    if (! CheckGroup_InConfig(LoginFilePath, Login)) {
+        cerr << "No such user: " << Login << endl;
+        return false;
+    }
+
     string InputHash = Hide(Passwd);
     return AddGroup_InConfig(LoginFilePath, Login, "passwd", InputHash.c_str());
 }
 
 
 bool CDC::Secure::CheckCapability(unsigned short RequiredLevel){
+    string cmd = "cat " + EmergencyPath + " | grep -q 1";
+    if (! system(cmd.c_str()))
+        return false;
+
     if (SecureLevel <= RequiredLevel)
         return true;
     else
@@ -111,24 +121,26 @@ bool CDC::Secure::CheckCapability(unsigned short RequiredLevel){
 
 // HASH
 // ---------------------------------------------------------------------------
-bool CDC::Secure::invalidChar(char c) {
-    return !(c>=21 && c <128);
+//bool CDC::Secure::invalidChar(char c) {
+bool invalidChar(char c) {
+    return !(c>=33 && c <126);
 }
 
-void CDC::Secure::stripUnicode(std::string & str) {
+//void CDC::Secure::stripUnicode(string & str) {
+void stripUnicode(string & str) {
     str.erase(remove_if(str.begin(),str.end(), invalidChar), str.end());
 }
 
 string CDC::Secure::Hide(string Passwd){
-    unsigned char hash[100];
+    unsigned char hash[SHA256_DIGEST_LENGTH];
 
     // create hash
-    SHA512(reinterpret_cast<const unsigned char*>(Passwd.c_str()), Passwd.size() - 1, hash);
+    SHA256(reinterpret_cast<const unsigned char*>(Passwd.c_str()), Passwd.size() - 1, hash);
 
     // remove non-print characters
     string HASH(reinterpret_cast<const char*>(hash));
-    stripUnicode(HASH);
 
+    stripUnicode(HASH);
     return HASH;
 }
 // ---------------------------------------------------------------------------
