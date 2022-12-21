@@ -1,60 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>HandTestingDetails</class>
- <widget class="QWidget" name="HandTestingDetails">
+ <class>Edit_test_case</class>
+ <widget class="QWidget" name="Edit_test_case">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>820</width>
-    <height>551</height>
+    <width>793</width>
+    <height>797</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_13">
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>тест</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBox"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>редактировать тест</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
@@ -67,11 +26,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="id_task">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
+        <widget class="QComboBox" name="comboBox"/>
        </item>
        <item>
         <widget class="QLabel" name="id_test_label">
@@ -95,11 +50,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="id_test_case">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
+        <widget class="QComboBox" name="comboBox_2"/>
        </item>
        <item>
         <widget class="QLabel" name="id_test_run_label">
@@ -109,11 +60,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="id_test_run">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
+        <widget class="QComboBox" name="comboBox_3"/>
        </item>
       </layout>
      </item>
@@ -139,11 +86,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="name">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
+        <widget class="QLineEdit" name="lineEdit"/>
        </item>
       </layout>
      </item>
@@ -169,11 +112,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="descryption">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
+        <widget class="QLineEdit" name="lineEdit_2"/>
        </item>
       </layout>
      </item>
@@ -194,16 +133,12 @@
           </size>
          </property>
          <property name="text">
-          <string>Инициатор</string>
+          <string>Ответсвенный</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="initiator">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
+        <widget class="QComboBox" name="comboBox_4"/>
        </item>
       </layout>
      </item>
@@ -260,6 +195,40 @@
        </item>
        <item>
         <widget class="QComboBox" name="worker"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_12">
+       <item>
+        <widget class="QLabel" name="type_testing_label">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Тип тестирования</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="hand_radio">
+         <property name="text">
+          <string>ручное тестирование</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="auto_radio">
+         <property name="text">
+          <string>Автоматическое</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="path_script_edit"/>
        </item>
       </layout>
      </item>
@@ -400,28 +369,7 @@
     </layout>
    </item>
    <item>
-    <widget class="Line" name="line_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_12">
-     <item>
-      <widget class="QPushButton" name="pushButton_3">
-       <property name="text">
-        <string>Редактировать тест набор</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="text">
-        <string>Редактировать тест ран</string>
-       </property>
-      </widget>
-     </item>
+    <layout class="QHBoxLayout" name="horizontalLayout_13">
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -436,9 +384,23 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="save_button">
+      <widget class="QPushButton" name="end_testing">
        <property name="text">
-        <string>Добавить тест</string>
+        <string>Завершить тестирование</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="delete_2">
+       <property name="text">
+        <string>Удалить</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="save">
+       <property name="text">
+        <string>Сохранить</string>
        </property>
       </widget>
      </item>

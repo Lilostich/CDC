@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "registration.h"
 #include "change_password.h"
+#include <QErrorMessage>
 
 namespace Ui {
 class Login;
@@ -31,6 +32,7 @@ private:
     Ui::Login *ui;
     Registration *registration;
     ChangePassword *changing;
+    QErrorMessage msg;
 };
 
 #endif // LOGIN_H

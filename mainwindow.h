@@ -6,8 +6,10 @@
 #include "gui//admining.h"
 #include "gui/auto_testing.h"
 #include "gui/handtestingform.h"
-#include  "gui/test_cases.h"
-
+#include "gui/hand_testing_details.h"
+#include "gui/test_cases.h"
+#include "gui/login.h"
+#include "gui/report.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,11 +23,19 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public:
+    int getLevel(){return level_sec;}
+
+public slots:
+    void active();
+
 private:
+    int level_sec;
     Ui::MainWindow *ui;
     QDockWidget *_admining;
     QDockWidget *_autoTesting;
     QDockWidget *_handTesting;
     QDockWidget *_testCases;
+    Login * _login;
 };
 #endif // MAINWINDOW_H

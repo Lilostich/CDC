@@ -1,20 +1,20 @@
-#ifndef CHOICE_TESTS_H
-#define CHOICE_TESTS_H
+#ifndef EDIT_PASS_H
+#define EDIT_PASS_H
 
 #include <QWidget>
 #include <QCloseEvent>
 
 namespace Ui {
-class Choice_tests;
+class edit_pass;
 }
 
-class Choice_tests : public QWidget
+class edit_pass : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit Choice_tests(QWidget *parent = nullptr);
-    ~Choice_tests();
+    explicit edit_pass(QWidget *parent = nullptr);
+    ~edit_pass();
 
 signals:
     void close_me();
@@ -25,14 +25,13 @@ protected:
         e->ignore();
     }
 
-
 private slots:
     void on_cancel_clicked();
 
-    void on_apply_clicked();
+    void on_save_clicked();
 
 private:
-    Ui::Choice_tests *ui;
+    Ui::edit_pass *ui;
 };
 
-#endif // CHOICE_TESTS_H
+#endif // EDIT_PASS_H

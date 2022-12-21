@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QCloseEvent>
+#include <QErrorMessage>
 
 namespace Ui {
 class Registration;
@@ -14,6 +15,7 @@ class Registration : public QWidget
 
 public:
     explicit Registration(QWidget *parent = nullptr);
+    void clear_fields();
     ~Registration();
 signals:
     void close_me();
@@ -25,6 +27,7 @@ private slots:
 
 private:
     Ui::Registration *ui;
+    QErrorMessage msg;
 
 protected:
     void closeEvent ( QCloseEvent * e );

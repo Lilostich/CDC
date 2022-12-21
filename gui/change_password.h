@@ -2,6 +2,7 @@
 #define CHANGE_PASSWORD_H
 
 #include <QWidget>
+#include <QErrorMessage>
 
 namespace Ui {
 class ChangePassword;
@@ -14,7 +15,7 @@ class ChangePassword : public QWidget
 public:
     explicit ChangePassword(QWidget *parent = nullptr);
     ~ChangePassword();
-
+    void clear_fields();
 signals:
     void close_me();
 
@@ -25,7 +26,7 @@ private slots:
 
 private:
     Ui::ChangePassword *ui;
-
+    QErrorMessage msg;
 protected:
     void closeEvent(QCloseEvent *e);
 };

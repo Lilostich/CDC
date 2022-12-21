@@ -10,6 +10,14 @@ Registration::Registration(QWidget *parent) :
     ui->pass2->setEchoMode(QLineEdit::Password);
 }
 
+void Registration::clear_fields()
+{
+    ui->pass1->setText("");
+    ui->pass2->setText("");
+    ui->login_edit->setText("");
+    ui->mail_edit->setText("");
+}
+
 Registration::~Registration()
 {
     delete ui;
@@ -18,6 +26,18 @@ Registration::~Registration()
 void Registration::on_but_reg_clicked()
 {
     printf("cancel but\n");
+    if (ui->pass1->text() != ui->pass2->text()){
+        msg.showMessage("Ошибка, пароли не совпадают");
+        return;
+    } else {
+        QRegExp mailMask("[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-z]+");
+        if (!mailMask.exactMatch(ui->mail_edit->text()))
+        {
+            msg.showMessage("Некоректная почта");
+            return;
+        }
+    }
+
     // TODO rewrite info
     close();
 }

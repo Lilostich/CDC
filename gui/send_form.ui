@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>adminingDetails</class>
- <widget class="QWidget" name="adminingDetails">
+ <class>send_form</class>
+ <widget class="QWidget" name="send_form">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>570</width>
-    <height>399</height>
+    <width>400</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,58 +15,62 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Имя</string>
+        <string>№ Задачи</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="name_edit"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Логин</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="login_edit"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Почта</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="mail_edit"/>
+      <widget class="QComboBox" name="comboBox"/>
      </item>
     </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLabel" name="label_4">
+      <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Роль</string>
+        <string>№ Сессии</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox_role"/>
+      <widget class="QComboBox" name="comboBox_2"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="hand_check">
+     <property name="text">
+      <string>логи ручных тестов</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="auto_check">
+     <property name="text">
+      <string>логи автоматических тестов</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Дата обновления</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="date_update">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -91,14 +95,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>Сменить пароль</string>
-       </property>
-      </widget>
-     </item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -113,16 +110,16 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="exec">
+      <widget class="QPushButton" name="pushButton">
        <property name="text">
-        <string>Запустить</string>
+        <string>Закрыть</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_2">
        <property name="text">
-        <string>Сохранить</string>
+        <string>Выполнить</string>
        </property>
       </widget>
      </item>

@@ -1,6 +1,8 @@
 #ifndef AUTO_TESTING_H
 #define AUTO_TESTING_H
 
+// TODO выпилить
+
 #include <QWidget>
 #include <QTableWidgetItem>
 

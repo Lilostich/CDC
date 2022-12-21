@@ -12,3 +12,14 @@ Choice_tests::~Choice_tests()
 {
     delete ui;
 }
+
+
+void Choice_tests::on_cancel_clicked()
+{
+    close();
+}
+
+void Choice_tests::on_apply_clicked()
+{
+    close();
+}

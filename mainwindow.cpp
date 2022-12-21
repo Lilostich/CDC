@@ -6,24 +6,35 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->hide();
+    _login = new Login();
+    _login->show();
     _admining = new QDockWidget("Администрирование");
-    _autoTesting = new QDockWidget("Авто тестыы");
-    _handTesting = new QDockWidget("Ручные тесты");
-    _testCases = new QDockWidget("Тестовые наборы");
+    _autoTesting = new QDockWidget("Тест менеджер");
+    _handTesting = new QDockWidget("Редактор тестов");
+    _testCases = new QDockWidget("Отчетность");
 
     _admining->setWidget(new admining());
-    _autoTesting->setWidget(new autoTesting());
-    _handTesting->setWidget(new HandTestingForm());
-    _testCases->setWidget(new TestCases());
+    _autoTesting->setWidget(new TestCases());
+    _handTesting->setWidget(new HandTestingDetails());
+    _testCases->setWidget(new report());
 
-    this->addDockWidget(Qt::TopDockWidgetArea,_admining);
-    this->addDockWidget(Qt::TopDockWidgetArea,_autoTesting);
-    this->addDockWidget(Qt::TopDockWidgetArea,_handTesting);
-    this->addDockWidget(Qt::TopDockWidgetArea,_testCases);
+    connect(_login,SIGNAL(successEnter()),
+            this,SLOT(active()));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::active()
+{
+    this->show();
+    _login->hide();
+    this->addDockWidget(Qt::TopDockWidgetArea,_admining);
+    this->addDockWidget(Qt::TopDockWidgetArea,_autoTesting);
+    this->addDockWidget(Qt::TopDockWidgetArea,_handTesting);
+    this->addDockWidget(Qt::TopDockWidgetArea,_testCases);
 }
 

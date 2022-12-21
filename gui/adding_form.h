@@ -1,6 +1,8 @@
 #ifndef ADDING_FORM_H
 #define ADDING_FORM_H
 
+// TODO Выпилить из проекта
+
 #include <QWidget>
 
 namespace Ui {
