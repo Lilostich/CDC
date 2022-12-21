@@ -7,7 +7,6 @@
 #include <libconfig.h>      // Read cfg files
 
 using namespace libconfig;
-//using namespace std;
 
 namespace CDC {
 

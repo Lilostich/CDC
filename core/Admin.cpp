@@ -1,78 +1,87 @@
 #include "Admin.hpp"
 
-#include <fstream>
-
 using namespace CDC;
 
 CDC::Admin::Admin(std::string MainCFG) {
     // read LoginFilePath
-    std::string tmp_str = GetEntryFromConfig(MainCFG, "SysLogin");
-    if (tmp_str.empty()) {
+    std::string tmp_str = GetEntry_InConfig(MainCFG, "SysLogin");
+    if (tmp_str.empty())
         throw std::invalid_argument("Error to read Login Path from CFG file");
-    } else {
-        LoginFilePath = tmp_str;
-    }
+    LoginFilePath = tmp_str;
 
     // read EnteredUsersPath
-    tmp_str = GetEntryFromConfig(MainCFG, "SysEntered");
-    if (tmp_str.empty()) {
+    tmp_str = GetEntry_InConfig(MainCFG, "SysEntered");
+    if (tmp_str.empty())
         throw std::invalid_argument("Error to read Entered Users Path from CFG file");
-    } else {
-        EnteredUsersPath = tmp_str;
-    }
+    EnteredUsersPath = tmp_str;
 
     // read EmregencyPath
-    tmp_str = GetEntryFromConfig(MainCFG, "SysEmergency");
-    if (tmp_str.empty()) {
+    tmp_str = GetEntry_InConfig(MainCFG, "SysEmergency");
+    if (tmp_str.empty())
         throw std::invalid_argument("Error to read Emeregency Path from CFG file");
-    } else {
-        EmergencyPath = tmp_str;
-    }
+    EmergencyPath = tmp_str;
 }
 
 
-int CDC::Admin::AddUser(std::string login, unsigned short secure_level) {
+void CDC::Admin::GetPaths(){
+    printf("%-20s\n", "Admin paths");
+    printf("%-20s%-20s\n", "LoginFilePath", LoginFilePath.c_str());
+    printf("%-20s%-20s\n", "EnteredUsersPath", EnteredUsersPath.c_str());
+    printf("%-20s%-20s\n", "EmergencyPath", EmergencyPath.c_str());
+}
+
+
+bool CDC::Admin::AddUser(std::string login, unsigned short secure_level) {
     // check login existance
-    if (CheckEntryOfGroupInList(LoginFilePath, "users", "login", login))
+    if (CheckGroup_InConfig(LoginFilePath, login))
         return true;
+    //if (CheckEntryOfGroupInList(LoginFilePath, "users", "login", login))
+        //return true;
 
     // open file and write new entry about user;
     // User is added without passwd.
-    return AddGroupToList(LoginFilePath, "users", "login", "level", login, secure_level);
+    //return AddGroupToList(LoginFilePath, "users", "login", "level", login, secure_level);
+    return AddGroup_InConfig(LoginFilePath, login, "level", secure_level);
 }
 
 
-int CDC::Admin::DeleteUser(std::string login); {
+bool CDC::Admin::DeleteUser(std::string login) {
     // check login existance
-    if (! CheckEntryOfGroupInList(LoginFilePath, "users", "login", login))
+    //if (! CheckEntryOfGroupInList(LoginFilePath, "users", "login", login))
+    //    return true;
+    if (! CheckGroup_InConfig(LoginFilePath, login))
         return true;
 
     // open file and remove user group entry from one
-    return DeleteGroupFromList(LoginFilePath, "users", "login", login);
+    //return DeleteGroupFromList(LoginFilePath, "users", "login", login);
+    return DelGroup_InConfig(LoginFilePath, login);
 }
 
 
-int CDC::Admin::SetLevel(std::string login, unsigned short secure_level) {
+bool CDC::Admin::SetLevel(std::string login, unsigned short secure_level) {
     // check login existance
-    if (! CheckEntryOfGroupInList(LoginFilePath, "users", "login", login))
+    //if (! CheckEntryOfGroupInList(LoginFilePath, "users", "login", login))
+    //    return false;
+    if (! CheckGroup_InConfig(LoginFilePath, login))
         return false;
 
     // open file and update level
-    return UpdateGroupOfList(LoginFilePath, "users", "login", "level", login, secure_level);
+    // return UpdateGroupOfList(LoginFilePath, "users", "login", "level", login, secure_level);
+    return AddGroup_InConfig(LoginFilePath, login, "level", secure_level);
 }
 
 
 void CDC::Admin::BanAll(){
     std::ofstream ofs;
-    ofs.open("test.txt", std::ofstream::out | std::ofstream::trunc);
-    ofs << "1";
+    ofs.open(EmergencyPath, std::ofstream::out | std::ofstream::trunc);
+    ofs << "1" << std::endl;
     ofs.close();
 }
 
-void CDC::Admin::UnbanAll(){
+void CDC::Admin::UnBanAll(){
     std::ofstream ofs;
-    ofs.open("test.txt", std::ofstream::out | std::ofstream::trunc);
-    ofs << "0";
+    ofs.open(EmergencyPath, std::ofstream::out | std::ofstream::trunc);
+    ofs << "0" << std::endl;
     ofs.close();
 }
 

@@ -11,6 +11,7 @@ CONFIG += c++11
 INLCUDEPATH += gui
 
 SOURCES += \
+    core/Secure.cpp\
     core/Admin.cpp \
     core/Config.cpp \
     core/Service.cpp \
@@ -42,6 +43,8 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    core/Secure.hpp \
+    core/Base.hpp \
     core/Admin.hpp \
     core/Config.hpp \
     core/Options.h \
