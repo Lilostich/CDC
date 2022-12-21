@@ -6,6 +6,7 @@
 
 #include "admining_details.h"
 #include "gui/admining_details.h"
+#include "core/Admin.hpp"
 
 namespace Ui {
 class admining;

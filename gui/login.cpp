@@ -41,29 +41,15 @@ void Login::on_button_regestration_clicked()
 
 void Login::on_button_enter_clicked()
 {
-    // TODO проверка файла
-    QFile file("fileName");
-    file.open(QIODevice::ReadOnly);
 
-    QByteArray bytes = file.readAll();
-    QJsonDocument doc;
-    doc = QJsonDocument::fromJson(bytes);
-    QJsonObject obj = doc.object();
-    QString pass; // Пароль в файле
-
-    if(obj.find("pass") != obj.end()){
-        pass = obj["pass"].toString();
-    }
-
-    static int i = 0;
-    if(i == 0)
+    QString login = ui->lineEdit->text();
+    QString password = ui->lineEdit_2->text();
+    CDC::Secure sec("CDC.cfg");
+    if(sec.Enter(login.toStdString(),password.toStdString()))
         successEnter();
     else {
         msg.showMessage("Пароль или логин недействительны.");
-        msg.setWindowTitle("Ошибка");
-        msg.show();
     }
-    i++;
 }
 
 

@@ -1,6 +1,7 @@
 #include "change_password.h"
 #include "ui_change_password.h"
 #include <QCloseEvent>
+#include "core/Secure.hpp"
 
 ChangePassword::ChangePassword(QWidget *parent) :
     QWidget(parent),
@@ -34,8 +35,14 @@ void ChangePassword::on_but_apply_clicked()
         msg.showMessage("Пароли не совпадают");
         return;
     }
-    // TODO проверка, что старый пароль реален
-    // TODO проверка что такой пользователь есть
+    QString name = ui->login_edit->text();
+    QString pass = ui->new_pass_edit1->text();
+
+    CDC::Secure sec("CDC.cfg");
+    if(!sec.Register(name.toStdString(),pass.toStdString())){
+        msg.showMessage("Ошибка");
+        return;
+    }
     close();
 }
 
