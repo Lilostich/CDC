@@ -1,3 +1,4 @@
 # debian 11.4
 libconfig++-dev
+libssl-dev
 

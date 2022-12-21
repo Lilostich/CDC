@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# 1) Создать файловую структуру с нужными правами
+#     - создать пользователя cdc
+#     - создать директории
+#     - chown на директории, кроме директории с пулом тестов
+# 2) Добавить админа в логин файл
+# 3) В emeregency записать 0
+
+
+CDC_ROOT=/var/lib/CDC
+CDC_USER=cdc
+
+CDC_LOGIN=$CDC_ROOT/Login.cfg
+CDC_ENTERED=$CDC_ROOT/Entered.cfg
+CDC_EMERGENCY=$CDC_ROOT/Emergency
+
+CDC_PROJECTS=$CDC_ROOT/Projects
+CDC_LISTS=$CDC_ROOT/Lists
+CDC_TESTS=$CDC_ROOT/Tests
+CDC_TESTS_BIN=$CDC_ROOT/Tests_bin
+
+
+# add user
+echo "[Install] Add user $CDC_USER"
+useradd -M -s /bin/bash -U $CDC_USER
+
+# create dirs
+MASK_ACCESS="0660"
+echo "[Install] Create file structure with access mask $MASK_ACCESS"
+mkdir -m $MASK_ACCESS -p $CDC_ROOT 
+mkdir -m $MASK_ACCESS -p $CDC_PROJECTS $CDC_LISTS $CDC_TESTS $CDC_TESTS_BIN
+
+# create files
+touch $CDC_LOGIN $CDC_ENTERED $CDC_EMERGENCY
+
+# add admin to login
+echo "[Install] Add Admin user"
+echo 'Admin =
+{
+    level = 0;
+}' > $CDC_LOGIN
+
+# normal mode
+echo "[Install] Set normal mode"
+echo 0 > $CDC_EMERGENCY
+
+# chown
+echo "[Install] Set $CDC_USER as owner of file structure"
+chown -R $CDC_USER:$CDC_USER $CDC_ROOT
+chmod -R ug+rwx $CDC_ROOT
