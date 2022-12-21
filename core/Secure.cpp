@@ -2,9 +2,9 @@
 
 using namespace CDC;
 
-CDC::Secure::Secure(std::string MainCFG) {
+CDC::Secure::Secure(string MainCFG) {
     // read LoginFilePath
-    std::string tmp_str = GetEntry_InConfig(MainCFG, "SysLogin");
+    string tmp_str = GetEntry_InConfig(MainCFG, "SysLogin");
     if (tmp_str.empty())
         throw std::invalid_argument("Error to read Login Path from CFG file");
     LoginFilePath = tmp_str;
@@ -32,33 +32,33 @@ void CDC::Secure::GetPaths(){
 }
 
 
-bool CDC::Secure::Enter(std::string Login, std::string Passwd){
+bool CDC::Secure::Enter(string Login, string Passwd){
     // check user existance
     if (! CheckGroup_InConfig(LoginFilePath, Login)) {
-        std::cerr << "No such user: " << Login << std::endl;
+        cerr << "No such user: " << Login << endl;
         return false;
     }
 
     // get real passwd
-    std::string RealHash = GetStringEntry_InGroup(LoginFilePath, Login, "passwd");
+    string RealHash = GetStringEntry_InGroup(LoginFilePath, Login, "passwd");
     if (RealHash.size() == 0) {
-        std::cerr << "No such field: " << "passwd" << std::endl;
+        cerr << "No such field: " << "passwd" << endl;
         return false;           // maybe registration was not executed
     }
 
     // get input hash
-    std::string InputHash = Hide(Passwd);
+    string InputHash = Hide(Passwd);
 
     // compare passwords
     if (InputHash != RealHash) {
-        std::cerr << "Wrong password" << std::endl;
+        cerr << "Wrong password" << endl;
         return false;
     }
 
     // OK enter -> set Secure Level
     SecureLevel = GetIntEntry_InGroup(LoginFilePath, Login, "level");
     if (SecureLevel == -1) {
-        std::cerr << "No such field: " << "level" << std::endl;
+        cerr << "No such field: " << "level" << endl;
         return false;           // WHAT???
     }
 
@@ -68,8 +68,8 @@ bool CDC::Secure::Enter(std::string Login, std::string Passwd){
         // kill process
         int pid = GetIntEntry_InGroup(EnteredUsersPath, Login, "pid");
         if (pid != -1) {
-            std::cerr << "Process of " << Login << " was found -> kill " << pid << std::endl;
-            std::string cmd = "kill " + std::to_string(pid) + " 2> /dev/null; sleep 1; kill -9 " + std::to_string(pid) + " 2> /dev/null";
+            cerr << "Process of " << Login << " was found -> kill " << pid << endl;
+            string cmd = "kill " + to_string(pid) + " 2> /dev/null; sleep 1; kill -9 " + to_string(pid) + " 2> /dev/null";
             system(cmd.c_str());    // in shell :-)
         }
     }
@@ -95,19 +95,19 @@ void CDC::Secure::Exit(bool ExitVal) {
 }
 
 
-bool CDC::Secure::Register(std::string Login, std::string Passwd){
+bool CDC::Secure::Register(string Login, string Passwd){
     if (! CheckGroup_InConfig(LoginFilePath, Login)) {
-        std::cerr << "No such user: " << Login << std::endl;
+        cerr << "No such user: " << Login << endl;
         return false;
     }
 
-    std::string InputHash = Hide(Passwd);
+    string InputHash = Hide(Passwd);
     return AddGroup_InConfig(LoginFilePath, Login, "passwd", InputHash.c_str());
 }
 
 
 bool CDC::Secure::CheckCapability(unsigned short RequiredLevel){
-    std::string cmd = "cat " + EmergencyPath + " | grep -q 1";
+    string cmd = "cat " + EmergencyPath + " | grep -q 1";
     if (! system(cmd.c_str()))
         return false;
 
@@ -127,18 +127,18 @@ bool invalidChar(char c) {
 }
 
 //void CDC::Secure::stripUnicode(string & str) {
-void stripUnicode(std::string & str) {
+void stripUnicode(string & str) {
     str.erase(remove_if(str.begin(),str.end(), invalidChar), str.end());
 }
 
-std::string CDC::Secure::Hide(std::string Passwd){
+string CDC::Secure::Hide(string Passwd){
     unsigned char hash[SHA256_DIGEST_LENGTH];
 
     // create hash
     SHA256(reinterpret_cast<const unsigned char*>(Passwd.c_str()), Passwd.size() - 1, hash);
 
     // remove non-print characters
-    std::string HASH(reinterpret_cast<const char*>(hash));
+    string HASH(reinterpret_cast<const char*>(hash));
 
     stripUnicode(HASH);
     return HASH;

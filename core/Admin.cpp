@@ -2,9 +2,9 @@
 
 using namespace CDC;
 
-CDC::Admin::Admin(std::string MainCFG) {
+CDC::Admin::Admin(string MainCFG) {
     // read LoginFilePath
-    std::string tmp_str = GetEntry_InConfig(MainCFG, "SysLogin");
+    string tmp_str = GetEntry_InConfig(MainCFG, "SysLogin");
     if (tmp_str.empty())
         throw std::invalid_argument("Error to read Login Path from CFG file");
     LoginFilePath = tmp_str;
@@ -31,7 +31,7 @@ void CDC::Admin::GetPaths(){
 }
 
 
-bool CDC::Admin::AddUser(std::string login, unsigned short secure_level) {
+bool CDC::Admin::AddUser(string login, unsigned short secure_level) {
     // check login existance
     if (CheckGroup_InConfig(LoginFilePath, login))
         return true;
@@ -45,7 +45,7 @@ bool CDC::Admin::AddUser(std::string login, unsigned short secure_level) {
 }
 
 
-bool CDC::Admin::DeleteUser(std::string login) {
+bool CDC::Admin::DeleteUser(string login) {
     // check login existance
     //if (! CheckEntryOfGroupInList(LoginFilePath, "users", "login", login))
     //    return true;
@@ -58,7 +58,7 @@ bool CDC::Admin::DeleteUser(std::string login) {
 }
 
 
-bool CDC::Admin::SetLevel(std::string login, unsigned short secure_level) {
+bool CDC::Admin::SetLevel(string login, unsigned short secure_level) {
     // check login existance
     //if (! CheckEntryOfGroupInList(LoginFilePath, "users", "login", login))
     //    return false;
@@ -72,16 +72,16 @@ bool CDC::Admin::SetLevel(std::string login, unsigned short secure_level) {
 
 
 void CDC::Admin::BanAll(){
-    std::ofstream ofs;
-    ofs.open(EmergencyPath, std::ofstream::out | std::ofstream::trunc);
-    ofs << "1" << std::endl;
+    ofstream ofs;
+    ofs.open(EmergencyPath, ofstream::out | ofstream::trunc);
+    ofs << "1" << endl;
     ofs.close();
 }
 
 void CDC::Admin::UnBanAll(){
-    std::ofstream ofs;
-    ofs.open(EmergencyPath, std::ofstream::out | std::ofstream::trunc);
-    ofs << "0" << std::endl;
+    ofstream ofs;
+    ofs.open(EmergencyPath, ofstream::out | ofstream::trunc);
+    ofs << "0" << endl;
     ofs.close();
 }
 
