@@ -26,13 +26,9 @@ QByteArray CDC::TaskLoader::open_read_file(std::string JsonFile) {
 
 void CDC::TaskLoader::LoadTask(string TaskPathJson) {
     // load json
-    cout << "RAZ" << endl;
     QByteArray TaskPathJsonByte = open_read_file(TaskPathJson);
-    cout << "DVA" << endl;
     QJsonDocument TaskPathJsonDoc(QJsonDocument::fromJson(TaskPathJsonByte));
-    cout << "TREE" << endl;
     QJsonObject TaskJson(TaskPathJsonDoc.object());
-    cout << "CH" << endl;
 
     // get fields
     string TaskName         = TaskJson["name"].toString().toStdString();
@@ -44,7 +40,6 @@ void CDC::TaskLoader::LoadTask(string TaskPathJson) {
     // gen task id
     string TaskId = TaskProject + "_" + TaskName + "_" + TaskDate;
     replace(TaskId.begin(), TaskId.end(), ' ', '_'); // удалить пробелы
-    cout << "ID: " << TaskId << endl;
 
     // create project dir
     Project ProjectManager;
