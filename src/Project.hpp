@@ -26,6 +26,11 @@ namespace CDC {
             /// @param ConfigPath path to .cfg file
             Project(string MainCFG);
 
+            /// @fn CDC::Project(string project_path)
+            /// @brief Init Project class via project path
+            /// @param project_path path to projects
+            void SetProjectPath(string project_path){ ProjectsPath = project_path; }
+
             /// @fn bool CDC::Project::CreateProject(string ProjectName, string ProjectStatus)
             /// @brief Create project dir and meta file. If project exists, update status only.
             /// @return return true in case of success else false
