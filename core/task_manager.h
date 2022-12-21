@@ -1,10 +1,13 @@
 #ifndef TASK_MANAGER_H
 #define TASK_MANAGER_H
 
-#include <test_omnimanager.h>
+#include "test_omnimanager.h"
 // Для qt json нужна версия qt повыше (5)
 //#include <Qt/qt
+#include <QJsonObject>
 typedef int json; // TODO поменять json на QJsonObject
+
+const std::string PATH_MAIN = "CDC";
 
 class Task_manager
 {

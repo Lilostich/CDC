@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <QStringList>
 
 class Test_manager
 {
@@ -14,21 +15,22 @@ public:
     void run_auto_list(std::string list_name);
     void run_auto_task(std::string task_name);
 
-    void run_manual_test(std::string test_name);
-    void run_manual_list(std::string list_name);
-    void run_manual_task(std::string task_name);
+    // Функции - часть запуска ручных тестов (запись результатов в файл)
+    void save_manual_test(std::string test_name,std::string data);
+    void save_manual_list(std::string list_name,std::string data);
+    void save_manual_task(std::string task_name,std::string data);
 
-    std::vector<std::string> get_lists();
-    std::vector<std::string> get_tests();
-    std::vector<std::string> get_runs();
+    QStringList get_lists();
+    QStringList get_tests();
+    QStringList get_runs();
 
-private:
+protected:
     /// Директория со всеми списками тестов
-    static std::string lists_path;
+    std::string lists_path;
     /// Директория со всеми тестами
-    static std::string tests_path;
+    std::string tests_path;
     /// Директория с таском
-    static std::string task_path;
+    std::string task_path;
 
     void create_session(std::string session_name);
     void kill_run();
