@@ -108,6 +108,46 @@ int CDC::GetIntEntry_InConfig(string ConfigPath, string Entry) {
 }
 
 
+bool CDC::AddEntry_InConfig(string ConfigPath, string Entry, string EntryVal){
+    // read config
+    Config cfg;
+    if (! OpenCfg(ConfigPath, cfg))
+        return false;
+
+    // get root of cfg
+    Setting& Root = cfg.getRoot();
+
+    // create or updare entry
+    if (Root.exists(Entry.c_str()))
+        Root.remove(Entry.c_str());
+
+    // add new field
+    Root.add(Entry, Setting::TypeString) = EntryVal;
+    cfg.writeFile(ConfigPath.c_str());
+    return true;
+}
+
+
+bool CDC::AddEntry_InConfig(string ConfigPath, string Entry, int EntryVal){
+    // read config
+    Config cfg;
+    if (! OpenCfg(ConfigPath, cfg))
+        return false;
+
+    // get root of cfg
+    Setting& Root = cfg.getRoot();
+
+    // create or updare entry
+    if (Root.exists(Entry.c_str()))
+        Root.remove(Entry.c_str());
+
+    // add new field
+    Root.add(Entry, Setting::TypeInt) = EntryVal;
+    cfg.writeFile(ConfigPath.c_str());
+    return true;
+}
+
+
 string CDC::GetStringEntry_InGroup(string ConfigPath, string GroupName, string Field) {
     Config cfg;
     string answer = "";
@@ -290,44 +330,6 @@ bool CDC::DelGroup_InConfig(string ConfigPath, string GroupName){
     }
 }
 // ---------------------------------------------------------------------------
-
-
-/*
-bool CDC::CheckEntriesInList(string ConfigPath, string ListName, string Entries[], string EntryValues[], int num){
-    Config cfg;
-
-    // read config
-    if (! OpenCfg(ConfigPath, cfg))
-        return false;
-
-    // check List in Cfg
-    Setting List;
-    if (! GetListFromCfg(ListName, Cfg, List))
-        return false;
-
-    // check required entry
-    string tmp_value = "";
-    int checked_num = 0;
-    for (auto it = List.begin(); it < List.end(); it++) {
-        // check every specified entry
-        for (int checked_num_tmp = checked_num; checked_num_tmp < num; checked_num_tmp++) {
-            *it.lookupValue(Entries[checked_num_tmp], tmp_value);  // write found entry to tmp_value
-            if (tmp_value == EntryValues[checked_num_tmp])
-                checked_num++;
-            else {
-                // if almost one entry is not OK -> go to the next List element
-                checked_num = 0;
-                break;
-            }
-        }
-
-        if (checked_num >= num)
-            return true;
-    }
-
-    return false;
-}
-*/
 
 
 bool CDC::AddGroupToList(string ConfigPath, string ListName, string entry_1,

@@ -59,6 +59,20 @@ namespace CDC {
     /// @return [int] entry from cfg file. In case of fail returns -1.
     int GetIntEntry_InConfig(string ConfigPath, string Entry);
 
+    /// @fn bool CDC::AddEntry_InConfig(string ConfigPath, string Entry, string EntryVal);
+    /// @brief Add entry to cfg
+    /// @details Check only the first level of cfg tree. Print info to stderr in case of some error.
+    ///          Update entry.
+    /// @param ConfigPath path to .cfg file
+    /// @param Entry entry namevalue
+    /// @return True in case of success otherwise false
+    bool AddEntry_InConfig(string ConfigPath, string Entry, string EntryVal);
+
+    /// @fn bool CDC::AddEntry_InConfig(string ConfigPath, string Entry, int EntryVal);
+    /// @brief As AddEntry_InConfig, but add int
+    /// @return True in case of success otherwise false
+    bool AddEntry_InConfig(string ConfigPath, string Entry, int EntryVal);
+
     /// @fn string CDC::GetStringEntry_InGroup(string ConfigPath, string GroupName, string Field)
     /// @brief Get field of the specified group of Config file
     /// @details 1 level tree
@@ -122,20 +136,6 @@ namespace CDC {
     /// @return True in case of success otherwise false
     bool DelGroup_InConfig(string ConfigPath, string GroupName);
     // -----------------------------------------------------------------------
-
-    /*
-    /// @fn bool CDC::CheckEntriesInList(string ConfigPath, string ListName, string Entries[], string EntryValues[], int Num)
-    /// @brief Check entries values of specified entries in specified list
-    /// @details Check only the first level of cfg tree. For example, func maybe used for checking two entries of login file:
-    ///          login and level.
-    /// @param ConfigPath path to .cfg file
-    /// @param ListName name of list
-    /// @param Entries names of entries
-    /// @param EntryValues values of entries
-    /// @param Num - number of checkable entries and entry values
-    /// @return True in case of success otherwise false
-    bool CheckEntriesInList(string ConfigPath, string ListName, string Entries[], string EntryValues[], int num);
-    */
 
     /// @fn bool CDC::AddGroupToList(string ConfigPath, string ListName, string entry_1,
     ///                         string entry_2, string entry_1_val, unsigned short entry_2_val)
