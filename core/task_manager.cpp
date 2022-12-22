@@ -86,8 +86,11 @@ void Task_manager::close_task(std::string project_name, std::string task_id) {
     TaskJson["status"] = closed;
 
     TaskPathJsonDoc.setObject(TaskJson);
-    QFile OutFile(TaskFilePath.c_str());
+    QFile OutFile;
+    OutFile.setFileName(TaskFilePath.c_str());
+    OutFile.open(QIODevice::WriteOnly | QIODevice::Text);
     OutFile.write(TaskPathJsonDoc.toJson());
+    OutFile.close();
 }
 
 void Task_manager::UploadTaskID(std::string project_name, std::string task_id){
@@ -102,9 +105,6 @@ void Task_manager::UploadTaskID(std::string project_name, std::string task_id){
     // get fields
     QString TaskID(task_id.c_str());
     TaskJson["TaskID"] = TaskID;
-
-    std::string cmd = "touch " + ReportFilePath;
-    system(cmd.c_str());
 
     TaskPathJsonDoc.setObject(TaskJson);
     QFile OutFile;
@@ -153,6 +153,9 @@ void Task_manager::UploadResults(std::string project_name, std::string task_id, 
     TaskJson["Results"] = Results;
 
     TaskPathJsonDoc.setObject(TaskJson);
+
+    QString strJson(TaskPathJsonDoc.toJson(QJsonDocument::Compact));
+
     QFile OutFile;
     OutFile.setFileName(ReportFilePath.c_str());
     OutFile.open(QIODevice::WriteOnly | QIODevice::Text);
