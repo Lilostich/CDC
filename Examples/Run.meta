@@ -1,0 +1,4 @@
+{
+    "tests" : [ "test1", "test2" ],
+    "lists" : [ "list1", "list2" ]
+}
