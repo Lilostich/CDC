@@ -28,6 +28,18 @@ void admining::close_slot()
             ui->tableWidget->setItem(0,1,new QTableWidgetItem(_details->getLogin()));
             ui->tableWidget->setItem(0,2,new QTableWidgetItem(_details->getMail()));
             ui->tableWidget->setItem(0,3,new QTableWidgetItem(_details->getRole()));
+        {
+            CDC::Admin admin_panel("CDC.cfg");
+            if (_details->getRole() == "Тестировщик"){
+                admin_panel.AddUser(_details->getLogin().toStdString(),2);
+            }
+            if (_details->getRole() == "Тест-аналитик"){
+                admin_panel.AddUser(_details->getLogin().toStdString(),1);
+            }
+            if (_details->getRole() == "Администратор"){
+                admin_panel.AddUser(_details->getLogin().toStdString(),0);
+            }
+        }
             break;
         default:
             ui->tableWidget->setItem(add_mode,0,new QTableWidgetItem(_details->getName()));
@@ -41,6 +53,7 @@ void admining::close_slot()
     _details->hide();
 }
 
+// FIXME -  больше не нужно
 void admining::on_tableWidget_itemDoubleClicked(QTableWidgetItem *item)
 {
 //    _details->fill(item);

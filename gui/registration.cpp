@@ -1,5 +1,6 @@
 #include "registration.h"
 #include "ui_registration.h"
+#include "core/Secure.hpp"
 
 Registration::Registration(QWidget *parent) :
     QWidget(parent),
@@ -38,7 +39,13 @@ void Registration::on_but_reg_clicked()
         }
     }
 
-    // TODO rewrite info
+    QString name = ui->login_edit->text();
+    QString pass = ui->pass1->text();
+    CDC::Secure sec("CDC.cfg");
+    if(!sec.Register(name.toStdString(),pass.toStdString())){
+        msg.showMessage("Ошибка");
+        return;
+    }
     close();
 }
 

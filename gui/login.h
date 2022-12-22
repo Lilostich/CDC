@@ -5,6 +5,7 @@
 #include "registration.h"
 #include "change_password.h"
 #include <QErrorMessage>
+#include "core/Secure.hpp"
 
 namespace Ui {
 class Login;
