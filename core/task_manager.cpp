@@ -61,6 +61,13 @@ std::string Task_manager::print_list_task(std::string ProjectName) {
 }
 
 
+std::string Task_manager::print_run(std::string project_name, std::string task_id, std::string test_run) {
+    std::string RunFilePath = ProjectsPath + "/" + project_name + "/" + task_id + "/" + test_run + ".meta";
+    QByteArray RunByte = open_read_file(RunFilePath);
+    return RunByte.toStdString();
+}
+
+
 QByteArray Task_manager::open_read_file(std::string JsonFile) {
     QFile File;
     File.setFileName(JsonFile.c_str());

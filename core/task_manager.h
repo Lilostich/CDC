@@ -23,6 +23,7 @@ public:
 
     std::string print_list_project();
     std::string print_list_task(std::string ProjectName);
+    std::string print_run(std::string project_name, std::string task_id, std::string test_run);
 
     //void run_test_manager(std::string project_name, std::string task_id);
     //void run_test_manager();
