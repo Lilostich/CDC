@@ -26,6 +26,10 @@ int main(int argc, char* argv[]){
     cout << endl;
     // ---------
 
+    //list
+    cout << "List users" << endl;
+    cout << ADMIN.ListUsers() << endl;;
+
     // remove user
     // ---------
     cout << "------------- RM USER ----------------" << endl;
