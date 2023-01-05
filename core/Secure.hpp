@@ -13,6 +13,10 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+namespace CDC {
+    class Secure;
+}
+
 #include "Config.hpp"           // cfg work
 #include "Base.hpp"             // constants
 

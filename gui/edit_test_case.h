@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QCloseEvent>
+#include "core/file_manager.h"
 
 namespace Ui {
 class Edit_test_case;

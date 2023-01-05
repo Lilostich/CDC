@@ -28,7 +28,7 @@ public:
 
 public slots:
     void active();
-
+    void go_login();
 private:
     int level_sec;
     Ui::MainWindow *ui;

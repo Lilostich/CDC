@@ -46,7 +46,13 @@ void admining::close_slot()
             ui->tableWidget->setItem(add_mode,1,new QTableWidgetItem(_details->getLogin()));
             ui->tableWidget->setItem(add_mode,2,new QTableWidgetItem(_details->getMail()));
             ui->tableWidget->setItem(add_mode,3,new QTableWidgetItem(_details->getRole()));
+        {
+            CDC::Admin adm("CDC.cfg");
+            adm.SetLevel(ui->tableWidget->item(add_mode,1)->text().toStdString(),
+                         ui->tableWidget->item(add_mode,3)->text().toUShort());
+        }
             break;
+
         }
         add_mode = -2;
     }
@@ -92,5 +98,8 @@ void admining::on_pushButton_2_clicked()
 void admining::on_pushButton_clicked()
 {
     int row = ui->tableWidget->currentRow();
+    CDC::Admin adminPanel("CDC.cfg");
+    std::cerr << ui->tableWidget->item(row,1)->text().toStdString() << endl;
+    adminPanel.DeleteUser(ui->tableWidget->item(row,1)->text().toStdString());
     ui->tableWidget->removeRow(row);
 }

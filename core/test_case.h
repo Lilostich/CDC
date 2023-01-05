@@ -1,34 +1,110 @@
-//#ifndef TESTCASE_H
-//#define TESTCASE_H
+#ifndef TESTCASE_H
+#define TESTCASE_H
 
-//#include <string>
-//#include <vector>
+#include <QString>
+#include <QJsonObject>
+#include <QStringList>
+#include <QVariantList>
+#include <QVariant>
+#include <QJsonValue>
+#include <QJsonArray>
 
-//struct TestCase
-//{
-//    /// id name of test case
-//    std::string testCaseName;
-//    /// file name "*.py"
-//    std::string scriptName;
-//};
+#include "file_manager.h"
 
-//struct TestSuite
-//{
-//    /// id name of test suite
-//    std::string testSuiteName;
-//    /// test cases
-//    std::vector<TestCase&> cases;
-//};
+class TestCase
+{
+public:
+    enum value{
+        name,
+        description,
+        pyScript,
+        date_creation,
 
-//struct TestRun
-//{
-//    /// id name of test suite
-//    std::string testRunName;
-//    /// test cases
-//    std::vector<TestSuite&> suites;
-//    /// test cases
-//    std::vector<TestCase&> cases;
-//};
+        value_size
+    };
+
+    TestCase();
+    TestCase(QString);
+    void load(QString);
+    void save(QString);
+
+    void set(value tag,QVariant val);
+    QVariant get(value tag);
+    void create(QString);
+    void append(value tag,QVariant);
+    void remove(value tag,QVariant);
+private:
+    QString current_test_name;
+    QStringList tags {
+        "name",
+        "description",
+        "pyScript",
+        "date_creation"
+    };
+
+    QJsonObject obj;
+};
+
+class TestSuite
+{
+public:
+
+    enum value{
+        name,
+        tests,
+
+        value_size
+    };
+
+    TestSuite();
+    TestSuite(QString);
+    void load(QString);
+    void save(QString);
+
+    void set(value tag,QVariant val);
+    QVariant get(value tag);
+    void create(QString);
+    void append(value tag,QVariant);
+    void remove(value tag,QVariant);
+protected:
+    QString current_test_name;
+    QStringList tags {
+        "name",
+        "tests",
+    };
+
+    QJsonObject obj;
+};
+
+class TestRun// : public TestSuite
+{
+public:
+
+    enum value{
+        name,
+        tests,
+        lists,
+
+        value_size
+    };
+    void set(value tag,QVariant val);
+    QVariant get(value tag);
+
+    TestRun(QString);
+    void load(QString);
+    void save(QString);
+
+    QString getProjectName(QString);
+private:
+    QString current_test_name;
+    QStringList tags {
+        "name",
+        "tests",
+        "lists"
+    };
+
+    QJsonObject obj;
+};
 
 //// NOTE  функции для работы со структурами TestCase, TestSuite, TestRun
 //void add_test_to_suite(TestCase& test, TestSuite& suite);
@@ -42,4 +118,4 @@
 //void clear_suite(TestSuite& suite);
 //void clear_run(TestRun& run);
 
-//#endif // TESTCASE_H
+#endif // TESTCASE_H
