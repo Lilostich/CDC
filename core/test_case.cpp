@@ -164,7 +164,7 @@ QVariant TestRun::get(value tag)
     }
 }
 
-TestRun::TestRun(QString name):TestSuite()
+TestRun::TestRun(QString name)
 {
     obj = file_manager::read_run(name);
     current_test_name = name;

@@ -60,6 +60,7 @@ void file_manager::create_project(QString name)
     dir.mkdir(taskDirName);
 }
 
+<<<<<<< HEAD
 void file_manager::delete_test(QString name)
 {
     QFile(file_name(name)).remove();
@@ -84,6 +85,22 @@ QJsonObject file_manager::read_test(QString name)
 
 QJsonObject file_manager::read_list(QString name)
 {
+=======
+QJsonObject file_manager::read_test(QString name)
+{
+    QFile file(testPath+ "/" + file_name(name));
+    if (file.exists()){
+        file.open(QFile::ReadOnly);
+        QJsonDocument doc {QJsonDocument::fromJson(file.readAll())};
+        file.close();
+        return doc.object();
+    } else
+        qFatal(QString("file of test is not exist %1").arg(name).toStdString().c_str());
+}
+
+QJsonObject file_manager::read_list(QString name)
+{
+>>>>>>> 672b390
     QFile file(listPath + "/" + file_name(name));
     if (file.exists()){
         file.open(QFile::ReadOnly);

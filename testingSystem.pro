@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -17,7 +17,9 @@ QMAKE_CXXFLAGS += -std=c++11
 INLCUDEPATH += gui
 
 SOURCES += \
-    core/Secure.cpp\
+    core/TaskLoader.cpp \
+    core/Project.cpp \
+    core/Secure.cpp \
     core/Admin.cpp \
     core/Config.cpp \
     core/Service.cpp \
@@ -28,7 +30,7 @@ SOURCES += \
     core/test_case.cpp \
     core/test_manager.cpp \
     core/test_omnimanager.cpp \
-    gui/adding_form.cpp \
+#    gui/adding_form.cpp \
     gui/admining.cpp \
     gui/admining_details.cpp \
 #    gui/auto_testing.cpp \
@@ -49,6 +51,8 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    core/TaskLoader.hpp \
+    core/Project.hpp \
     core/Secure.hpp \
     core/Base.hpp \
     core/Admin.hpp \

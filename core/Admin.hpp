@@ -47,6 +47,8 @@ namespace CDC {
             /// @return true in case of success or login is not in cfg else false
             bool DeleteUser(string login);
 
+            string ListUsers();
+
             /// @fn bool CDC::Admin::SetLevel(string login)
             /// @brief Update secure level for login. Func does not add new user
             /// @param login login value

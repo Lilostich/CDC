@@ -45,6 +45,33 @@ bool CDC::Admin::AddUser(string login, unsigned short secure_level) {
 }
 
 
+string CDC::Admin::ListUsers(){
+    string Answer = "";
+    int tmp_level;
+    string tmp_string;
+
+    // read config
+    Config cfg;
+    if (! OpenCfg(LoginFilePath, cfg))
+        return Answer;
+
+    // get root of cfg
+    Setting& Root = cfg.getRoot();
+
+    int root_length = Root.getLength();
+    for (int i = 0; i < root_length; i++) {
+        Setting &group = Root[i];
+        Answer = Answer + "\n" + group.getName();
+
+        group.lookupValue("level", tmp_level);
+        tmp_string = to_string(tmp_level);
+        Answer = Answer + ", " + tmp_string;
+    }
+
+    return Answer;
+}
+
+
 bool CDC::Admin::DeleteUser(string login) {
     // check login existance
     //if (! CheckEntryOfGroupInList(LoginFilePath, "users", "login", login))

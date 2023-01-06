@@ -76,7 +76,7 @@ protected:
     QJsonObject obj;
 };
 
-class TestRun : public TestSuite
+class TestRun// : public TestSuite
 {
 public:
 
@@ -96,11 +96,13 @@ public:
 
     QString getProjectName(QString);
 private:
+    QString current_test_name;
     QStringList tags {
         "name",
         "tests",
         "lists"
     };
+    QJsonObject obj;
 };
 
 //// NOTE  функции для работы со структурами TestCase, TestSuite, TestRun
