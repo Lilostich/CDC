@@ -68,12 +68,15 @@ void HandTestingDetails::on_comboBox_currentIndexChanged(int index)
 
 void HandTestingDetails::on_comboBox_currentIndexChanged(const QString &arg1)
 {
-    TestCase test(arg1);
+    qDebug(QString("Try fill window for %1 test").arg(arg1).toStdString().c_str());
+    if (arg1 != ""){
 
+    TestCase test(arg1);
     ui->comment->setText(test.get(TestCase::value::pyScript).toString());
     ui->name->setText(test.get(TestCase::value::name).toString());
     ui->data_testing->setText(test.get(TestCase::value::date_creation).toString());
     ui->descryption->setText(test.get(TestCase::value::description).toString());
+    }
 }
 
 void HandTestingDetails::close_slot()

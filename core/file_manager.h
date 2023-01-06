@@ -6,9 +6,9 @@
 #include <QFile>
 #include <QDir>
 
-const QString testPath = "var/CDC/Tests";
-const QString listPath = "./CDC/Lists";
-const QString projectsPath = "./CDC/Projects";
+const QString testPath = "/var/lib/CDC/Tests";
+const QString listPath = "/var/lib/CDC/Lists";
+const QString projectsPath = "/var/lib/CDC/Projects";
 const QString taskPath = "./Tasks";
 const QString taskDirName = "Tasks";
 
@@ -31,7 +31,6 @@ public:
     static void create_run(QString name,QString project);
     static void create_task(QString name);
 
-<<<<<<< HEAD
     static void delete_test(QString name);
 
     static void delete_list(QString name);
@@ -39,8 +38,6 @@ public:
     //static void delete_run(QString name,QString project);
     //static void delete_task(QString name);
 
-=======
->>>>>>> 672b390
     static QJsonObject read_test(QString name);
     static QJsonObject read_list(QString name);
     static QJsonObject read_run(QString name);

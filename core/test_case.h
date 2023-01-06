@@ -23,7 +23,7 @@ public:
         value_size
     };
 
-    TestCase();
+    TestCase(){}
     TestCase(QString);
     void load(QString);
     void save(QString);

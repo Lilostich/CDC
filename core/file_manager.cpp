@@ -60,15 +60,14 @@ void file_manager::create_project(QString name)
     dir.mkdir(taskDirName);
 }
 
-<<<<<<< HEAD
 void file_manager::delete_test(QString name)
 {
-    QFile(file_name(name)).remove();
+    QFile(testPath + "/" + file_name(name)).remove();
 }
 
 void file_manager::delete_list(QString name)
 {
-    QFile(file_name(name)).remove();
+    QFile(listPath + "/" + file_name(name)).remove();
 }
 
 QJsonObject file_manager::read_test(QString name)
@@ -85,22 +84,6 @@ QJsonObject file_manager::read_test(QString name)
 
 QJsonObject file_manager::read_list(QString name)
 {
-=======
-QJsonObject file_manager::read_test(QString name)
-{
-    QFile file(testPath+ "/" + file_name(name));
-    if (file.exists()){
-        file.open(QFile::ReadOnly);
-        QJsonDocument doc {QJsonDocument::fromJson(file.readAll())};
-        file.close();
-        return doc.object();
-    } else
-        qFatal(QString("file of test is not exist %1").arg(name).toStdString().c_str());
-}
-
-QJsonObject file_manager::read_list(QString name)
-{
->>>>>>> 672b390
     QFile file(listPath + "/" + file_name(name));
     if (file.exists()){
         file.open(QFile::ReadOnly);
@@ -144,11 +127,19 @@ QJsonObject file_manager::read_task(QString name)
 void file_manager::write_test(QString name, QJsonObject &data)
 {
     QFile file(testPath+ "/" + file_name(name));
-    if (file.exists()){
-        qFatal(QString("file for write not exist %1").arg(file_name(name)).toStdString().c_str());
-        return;
+//    if (!file.exists()){
+//        file.open(QFile::WriteOnly | QFile::NewOnly);
+//        qDebug(QString("create new file %1").arg(file_name(name)).toStdString().c_str());
+//    } else {
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+
+    if (!file.isOpen()){
+        qDebug("file not open");
+        file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::NewOnly);
+        if (!file.isOpen())
+            qDebug("file not open again");
     }
-    file.open(QFile::WriteOnly);
+
     QJsonDocument doc;
     doc.setObject(data);
     file.write(doc.toJson());
@@ -202,13 +193,32 @@ void file_manager::write_task(QString name, QJsonObject &data)
 QStringList file_manager::get_all_tests()
 {
     QDir dir(testPath);
-    return dir.entryList(QDir::Files | QDir::NoDotAndDotDot);
+    auto allFiles = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
+    QStringList files;
+    for (auto &info : allFiles){
+        if (info.suffix() == "meta"){
+            files.push_back(info.baseName());
+
+        }
+    }
+    qDebug("TESTING NOW");
+    qDebug(files.at(0).toStdString().c_str());
+    return files;
 }
 
 QStringList file_manager::get_all_lists()
 {
     QDir dir(listPath);
-    return dir.entryList(QDir::Files | QDir::NoDotAndDotDot);
+    auto allFiles = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
+    QStringList files;
+    for (auto &info : allFiles){
+        if (info.suffix() == "meta"){
+            files.push_back(info.baseName());
+
+        }
+    }
+    qDebug(files.at(0).toStdString().c_str());
+    return files;
 }
 
 QStringList file_manager::get_all_projects()

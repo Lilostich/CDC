@@ -59,6 +59,7 @@ void Edit_test_case::on_save_clicked()
 {
     TestCase new_test;
     new_test.set(TestCase::value::name,ui->lineEdit->text());
+    qDebug(QString("test name for save %1").arg(ui->lineEdit->text()).toStdString().c_str());
     new_test.set(TestCase::value::description,ui->lineEdit_2->text());
     new_test.set(TestCase::value::date_creation,ui->data_creation->text());
     new_test.set(TestCase::value::pyScript,ui->path_script_edit->text());
