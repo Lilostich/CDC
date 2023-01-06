@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <fstream>
 
+#include <QStringList>
+#include <QString>
+
 #include "Config.hpp"           // cfg work
 #include "Base.hpp"             // constants
 
@@ -47,7 +50,12 @@ namespace CDC {
             /// @return true in case of success or login is not in cfg else false
             bool DeleteUser(string login);
 
-            string ListUsers();
+            // List of all users in CDC
+            QStringList ListUsers();
+
+            // Get info about User
+            // {login, level, register_status}
+            QStringList UserInfo(string login);
 
             /// @fn bool CDC::Admin::SetLevel(string login)
             /// @brief Update secure level for login. Func does not add new user

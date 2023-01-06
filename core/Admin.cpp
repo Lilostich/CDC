@@ -45,8 +45,8 @@ bool CDC::Admin::AddUser(string login, unsigned short secure_level) {
 }
 
 
-string CDC::Admin::ListUsers(){
-    string Answer = "";
+QStringList CDC::Admin::ListUsers(){
+    QStringList Answer = {};
     int tmp_level;
     string tmp_string;
 
@@ -61,14 +61,43 @@ string CDC::Admin::ListUsers(){
     int root_length = Root.getLength();
     for (int i = 0; i < root_length; i++) {
         Setting &group = Root[i];
-        Answer = Answer + "\n" + group.getName();
+        tmp_string = group.getName();
 
         group.lookupValue("level", tmp_level);
-        tmp_string = to_string(tmp_level);
-        Answer = Answer + ", " + tmp_string;
+        tmp_string = tmp_string + " " + to_string(tmp_level);
+        Answer << QString::fromStdString(tmp_string);
     }
 
     return Answer;
+}
+
+
+QStringList CDC::Admin::UserInfo(string login){
+    QStringList Answer = {};
+    int tmp_level;
+    string tmp_str = "Not registered";
+
+    // read config
+    Config cfg;
+    if (! OpenCfg(LoginFilePath, cfg))
+        return Answer;
+
+    // Find group
+    try {
+        Setting &user = cfg.lookup(login);
+        // login
+        Answer << user.getName();
+        // level
+        user.lookupValue("level", tmp_level);
+        Answer << QString::fromStdString(to_string(tmp_level));
+        // register
+        if (user.lookupValue("passwd", tmp_str))
+            tmp_str = "Registered";
+        Answer << QString::fromStdString(tmp_str);
+        return Answer;
+    } catch (const SettingNotFoundException &nfex) {
+        return Answer;
+    }
 }
 
 
