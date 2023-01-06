@@ -33,5 +33,14 @@ int main(int argc, char* argv[]){
     TASKMAN.UploadRun("Firefox", "Firefox_Тестирование_браузера_20221201", "Run");
     system("cat /var/lib/CDC/Reports/Firefox_Тестирование_браузера_20221201_RUN.json");
 
+    cout << "\nUpload Result" << endl;
+    system("cp ../Examples/Result.meta /var/lib/CDC/Results");
+    TASKMAN.UploadResults("Firefox", "Firefox_Тестирование_браузера_20221201", "Result");
+    system("cat /var/lib/CDC/Reports/Firefox_Тестирование_браузера_20221201_Result_RESULTS.json");
+
+    cout << "\nClose Task" << endl;
+    TASKMAN.close_task("Firefox", "Firefox_Тестирование_браузера_20221201");
+    system("cat /var/lib/CDC/Projects/Firefox/Firefox_Тестирование_браузера_20221201/Firefox_Тестирование_браузера_20221201.json");
+
     return 0;
 }
