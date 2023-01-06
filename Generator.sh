@@ -393,7 +393,7 @@ process_args(){
     echo "List postfix:     $LIST_POSTFIX"
     echo "Run postfix:      $RUN_POSTFIX"
     echo "Project postfix:  $PROJECT_POSTFIX"
-    echo "Task postfix:     $PROJECT_POSTFIX"
+    echo "Task postfix:     $TASK_POSTFIX"
     echo
 }
 
