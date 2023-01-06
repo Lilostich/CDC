@@ -7,8 +7,6 @@
 class Admin_manager : public Secure_manager
 {
 
-
-
 public:
     Admin_manager();
 

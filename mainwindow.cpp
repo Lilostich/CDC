@@ -19,8 +19,22 @@ MainWindow::MainWindow(QWidget *parent)
     _handTesting->setWidget(new HandTestingDetails());
     _testCases->setWidget(new report());
 
+    QAction *authorize = new QAction("Сменить аккаунт");
+    ui->menuFile->addAction(authorize);
+    connect(authorize,&QAction::triggered,
+            this,&MainWindow::go_login);
     connect(_login,SIGNAL(successEnter()),
             this,SLOT(active()));
+
+    this->addDockWidget(Qt::TopDockWidgetArea,_admining);
+    this->addDockWidget(Qt::TopDockWidgetArea,_autoTesting);
+    this->addDockWidget(Qt::TopDockWidgetArea,_handTesting);
+    this->addDockWidget(Qt::TopDockWidgetArea,_testCases);
+    _admining->hide();
+//    this->dock
+    _autoTesting->hide();
+    _handTesting->hide();
+    _testCases->hide();
 }
 
 MainWindow::~MainWindow()
@@ -32,9 +46,21 @@ void MainWindow::active()
 {
     this->show();
     _login->hide();
-    this->addDockWidget(Qt::TopDockWidgetArea,_admining);
-    this->addDockWidget(Qt::TopDockWidgetArea,_autoTesting);
-    this->addDockWidget(Qt::TopDockWidgetArea,_handTesting);
-    this->addDockWidget(Qt::TopDockWidgetArea,_testCases);
+    _admining->show();
+//    this->dock
+    _autoTesting->show();
+    _handTesting->show();
+    _testCases->show();
+
+}
+
+void MainWindow::go_login()
+{
+    _admining->hide();
+//    this->dock
+    _autoTesting->hide();
+    _handTesting->hide();
+    _testCases->hide();
+    _login->show();
 }
 

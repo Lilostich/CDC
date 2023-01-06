@@ -49,7 +49,7 @@
      </column>
      <column>
       <property name="text">
-       <string/>
+       <string>PPP</string>
       </property>
      </column>
      <item row="0" column="0">

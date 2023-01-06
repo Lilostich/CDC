@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QCloseEvent>
+#include "core/file_manager.h"
 
 namespace Ui {
 class Edit_test_case;
@@ -15,6 +16,7 @@ class Edit_test_case : public QWidget
 public:
     explicit Edit_test_case(QWidget *parent = nullptr);
     ~Edit_test_case();
+    void fill(QString);
 
 signals:
     void close_me();

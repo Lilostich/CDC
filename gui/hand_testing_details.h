@@ -39,6 +39,7 @@ private:
     Ui::HandTestingDetails *ui;
     Edit_test_case *edit_form;
     edit_tests_run_and_list *list_and_run_form;
+    int add_mode;
 protected:
 
 };

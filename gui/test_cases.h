@@ -21,6 +21,8 @@ private slots:
 
     void on_chose_list_clicked();
     void close_slot();
+    void on_comboBox_currentIndexChanged(const QString &arg1);
+    void fill_table_values(const QString run_name);
 private:
     Ui::TestCases *ui;
     Choice_tests *choice_form;

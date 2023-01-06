@@ -12,6 +12,8 @@ LIBS += -lcrypto
 LIBS += -lssl
 LIBS += -lconfig++
 
+QMAKE_CXXFLAGS += -std=c++11
+
 INLCUDEPATH += gui
 
 SOURCES += \
@@ -19,9 +21,9 @@ SOURCES += \
     core/Admin.cpp \
     core/Config.cpp \
     core/Service.cpp \
-    core/admin_manager.cpp \
+#    core/admin_manager.cpp \
     core/file_manager.cpp \
-    core/secure_manager.cpp \
+#    core/secure_manager.cpp \
     core/task_manager.cpp \
     core/test_case.cpp \
     core/test_manager.cpp \
@@ -29,15 +31,15 @@ SOURCES += \
     gui/adding_form.cpp \
     gui/admining.cpp \
     gui/admining_details.cpp \
-    gui/auto_testing.cpp \
-    gui/auto_testing_details.cpp \
+#    gui/auto_testing.cpp \
+#    gui/auto_testing_details.cpp \
     gui/change_password.cpp \
     gui/choice_tests.cpp \
     gui/edit_pass.cpp \
     gui/edit_test_case.cpp \
     gui/edit_tests_run_and_list.cpp \
     gui/hand_testing_details.cpp \
-    gui/handtestingform.cpp \
+#    gui/handtestingform.cpp \
     gui/login.cpp \
     gui/registration.cpp \
     gui/report.cpp \
@@ -52,25 +54,25 @@ HEADERS += \
     core/Admin.hpp \
     core/Config.hpp \
     core/Options.h \
-    core/admin_manager.h \
+#    core/admin_manager.h \
     core/file_manager.h \
-    core/secure_manager.h \
+#    core/secure_manager.h \
     core/task_manager.h \
     core/test_case.h \
     core/test_manager.h \
     core/test_omnimanager.h \
-    gui/adding_form.h \
+#    gui/adding_form.h \
     gui/admining.h \
     gui/admining_details.h \
-    gui/auto_testing.h \
-    gui/auto_testing_details.h \
+#    gui/auto_testing.h \
+#    gui/auto_testing_details.h \
     gui/change_password.h \
     gui/choice_tests.h \
     gui/edit_pass.h \
     gui/edit_test_case.h \
     gui/edit_tests_run_and_list.h \
     gui/hand_testing_details.h \
-    gui/handtestingform.h \
+#    gui/handtestingform.h \
     gui/login.h \
     gui/registration.h \
     gui/report.h \
@@ -79,18 +81,18 @@ HEADERS += \
     mainwindow.h
 
 FORMS += \
-    gui/adding_form.ui \
+#    gui/adding_form.ui \
     gui/admining.ui \
     gui/admining_details.ui \
-    gui/auto_testing.ui \
-    gui/auto_testing_details.ui \
+#    gui/auto_testing.ui \
+#    gui/auto_testing_details.ui \
     gui/change_password.ui \
     gui/choice_tests.ui \
     gui/edit_pass.ui \
     gui/edit_test_case.ui \
     gui/edit_tests_run_and_list.ui \
     gui/hand_testing_details.ui \
-    gui/handtestingform.ui \
+#    gui/handtestingform.ui \
     gui/login.ui \
     gui/registration.ui \
     gui/report.ui \

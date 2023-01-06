@@ -1,4 +1,8 @@
 #include "file_manager.h"
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <stdlib.h>
+#include <cstdlib>
 
 file_manager::file_manager()
 {
@@ -7,38 +11,18 @@ file_manager::file_manager()
 
 bool file_manager::have_test(QString testName)
 {
-    QDir dir(testPath);
-    QStringList list = dir.entryList(QDir::Files | QDir::NoDotAndDotDot);
 
-    for(int i = 0; i < list.size(); i++){
-        if(list[i] == testName)
-            return true;
-    }
-    return false;
+    return QFile(testPath + "/" + file_name(testName)).exists();
 }
 
 bool file_manager::have_list(QString name)
 {
-    QDir dir(listPath);
-    QStringList list = dir.entryList(QDir::Files | QDir::NoDotAndDotDot);
-
-    for(int i = 0; i < list.size(); i++){
-        if(list[i] == name)
-            return true;
-    }
-    return false;
+    return QFile(listPath + "/" + file_name(name)).exists();
 }
 
 bool file_manager::have_project(QString name)
 {
-    QDir dir(projectsPath);
-    QStringList list = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-
-    for(int i = 0; i < list.size(); i++){
-        if(list[i] == name)
-            return true;
-    }
-    return false;
+    return QDir(projectsPath + "/" + name).exists();
 }
 
 bool file_manager::have_run(QString name)
@@ -47,65 +31,71 @@ bool file_manager::have_run(QString name)
     QStringList projects = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 
     for(int i = 0; i < projects.size(); i++){
-        QDir dir(projectsPath + "/" + projects[i] + "/" + taskPath);
-        QStringList tasks = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-        for(int j = 0; j < tasks.size(); j++){
-            if(tasks[i] == name)
-                return true;
-        }
-
+        if(QFile(projectsPath + "/" + projects[i] + "/" + taskPath + "/" +file_name(name)).exists())
+            return true;
     }
     return false;
 }
 
 bool file_manager::have_task(QString name)
 {
+    return have_run(name);
+}
+
+void file_manager::create_test(QString name)
+{
+    system((QString("touch ") + "./" + testPath + "/" + file_name(name)).toStdString().c_str());
+}
+
+void file_manager::create_list(QString name)
+{
+    system((QString("touch ") + "./" + listPath + "/" + file_name(name)).toStdString().c_str());
+}
+
+void file_manager::create_project(QString name)
+{
     QDir dir(projectsPath);
-    QStringList projects = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-
-    for(int i = 0; i < projects.size(); i++){
-        QDir dir(projectsPath + "/" + projects[i] + "/" + taskPath);
-        QStringList tasks = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-        for(int j = 0; j < tasks.size(); j++){
-            if(tasks[i] == name)
-                return true;
-        }
-
-    }
-    return false;
+    dir.mkdir(name);
+    dir.cd(name);
+    dir.mkdir(taskDirName);
 }
 
-QByteArray file_manager::read_test(QString name)
+void file_manager::delete_test(QString name)
 {
-    QDir dir(testPath);
-    QStringList list = dir.entryList(QDir::Files | QDir::NoDotAndDotDot);
-    int i;
-    for(i = 0; i < list.size(); i++){
-        if(list[i] == name)
-            break;
-    }
-    QFile file(testPath+ "/" + list[i]);
-    file.open(QFile::ReadOnly);
-    return file.readAll();
+    QFile(file_name(name)).remove();
 }
 
-QByteArray file_manager::read_list(QString name)
+void file_manager::delete_list(QString name)
 {
-    QDir dir(listPath);
-    QStringList list = dir.entryList(QDir::Files | QDir::NoDotAndDotDot);
+    QFile(file_name(name)).remove();
+}
 
-    int i;
-    for(i = 0; i < list.size(); i++){
-        if(list[i] == name)
-            break;
-    }
-    QFile file(listPath+ "/" + list[i]);
-    file.open(QFile::ReadOnly);
-    return file.readAll();
+QJsonObject file_manager::read_test(QString name)
+{
+    QFile file(testPath+ "/" + file_name(name));
+    if (file.exists()){
+        file.open(QFile::ReadOnly);
+        QJsonDocument doc {QJsonDocument::fromJson(file.readAll())};
+        file.close();
+        return doc.object();
+    } else
+        qFatal(QString("file of test is not exist %1").arg(name).toStdString().c_str());
+}
+
+QJsonObject file_manager::read_list(QString name)
+{
+    QFile file(listPath + "/" + file_name(name));
+    if (file.exists()){
+        file.open(QFile::ReadOnly);
+        QJsonDocument doc {QJsonDocument::fromJson(file.readAll())};
+        file.close();
+        return doc.object();
+    } else
+        qFatal(QString("file of list is not exist %1").arg(name).toStdString().c_str());
 
 }
 
-QByteArray file_manager::read_run(QString name)
+QJsonObject file_manager::read_run(QString name)
 {
     QDir dir(projectsPath);
     QStringList projects = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
@@ -124,45 +114,47 @@ QByteArray file_manager::read_run(QString name)
     }
     QFile file(run_full_name);
     file.open(QFile::ReadOnly);
-    return file.readAll();
+    QJsonDocument doc {QJsonDocument::fromJson(file.readAll())};
+    file.close();
+    return doc.object();
 }
 
-QByteArray file_manager::read_task(QString name)
+QJsonObject file_manager::read_task(QString name)
 {
     return read_run(name);
 }
 
-void file_manager::write_test(QString name, QByteArray &&data)
+void file_manager::write_test(QString name, QJsonObject &data)
 {
-    QDir dir(testPath);
-    QStringList list = dir.entryList(QDir::Files | QDir::NoDotAndDotDot);
-    int i;
-    for(i = 0; i < list.size(); i++){
-        if(list[i] == name)
-            break;
+    QFile file(testPath+ "/" + file_name(name));
+    if (file.exists()){
+        qFatal(QString("file for write not exist %1").arg(file_name(name)).toStdString().c_str());
+        return;
     }
-    QFile file(testPath+ "/" + list[i]);
     file.open(QFile::WriteOnly);
-    file.write(data);
+    QJsonDocument doc;
+    doc.setObject(data);
+    file.write(doc.toJson());
+    file.close();
 }
 
-void file_manager::write_list(QString name, QByteArray &&data)
+void file_manager::write_list(QString name, QJsonObject &data)
 {
-    QDir dir(listPath);
-    QStringList list = dir.entryList(QDir::Files | QDir::NoDotAndDotDot);
-
-    int i;
-    for(i = 0; i < list.size(); i++){
-        if(list[i] == name)
-            break;
+    QFile file(listPath+ "/" + file_name(name));
+    if (file.exists()){
+        qFatal(QString("file for write not exist %1").arg(file_name(name)).toStdString().c_str());
+        return;
     }
-    QFile file(listPath+ "/" + list[i]);
     file.open(QFile::WriteOnly);
-    file.write(data);
+    QJsonDocument doc;
+    doc.setObject(data);
+    file.write(doc.toJson());
+    file.close();
 }
 
-void file_manager::write_run(QString name, QByteArray &&data)
+void file_manager::write_run(QString name, QJsonObject &data)
 {
+    // TODO переписать под хедер
     QDir dir(projectsPath);
     QStringList projects = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     QString run_full_name = "";
@@ -180,12 +172,14 @@ void file_manager::write_run(QString name, QByteArray &&data)
     }
     QFile file(run_full_name);
     file.open(QFile::WriteOnly);
-    file.write(data);
+    QJsonDocument doc;
+    doc.setObject(data);
+    file.write(doc.toJson());
 }
 
-void file_manager::write_task(QString name, QByteArray &&data)
+void file_manager::write_task(QString name, QJsonObject &data)
 {
-    write_run(name,std::move(data));
+    write_run(name,data);
 }
 
 QStringList file_manager::get_all_tests()
@@ -231,12 +225,25 @@ QStringList file_manager::get_tasks(QString project_name)
     if (have_project(project_name)){
         return QDir(projectsPath + "/" + project_name + "/" + taskPath).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     }
+    else
+        qFatal("project not exists");
     return QStringList();
 }
 
 QStringList file_manager::get_runs(QString project_name)
 {
     return get_tasks(project_name);
+}
+
+QString file_manager::get_project_of_run(QString run_name)
+{
+    QStringList projects = get_all_projects();
+    for ( auto proj_name : projects){
+        if (get_runs(proj_name).contains(run_name)){
+            return proj_name;
+        }
+    }
+    qDebug("No run with this name");
 }
 
 

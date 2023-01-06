@@ -10,6 +10,7 @@ typedef int json; // TODO поменять json на QJsonObject
 
 #include "../src/Config.hpp" // TODO: REPLACE
 
+using namespace std;
 const std::string PATH_MAIN = "CDC";
 
 class Task_manager
@@ -43,7 +44,6 @@ private:
 
     //json fit_task_answer(std::string project,std::string task_id);
     //void send_result(json);
-    //void run_test_omnimanager(std::string project_name, std::string task_id);
     QByteArray open_read_file(std::string JsonFile);  // read Json
 };
 
