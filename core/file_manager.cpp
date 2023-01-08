@@ -1,8 +1,11 @@
 #include "file_manager.h"
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <stdlib.h>
 #include <cstdlib>
+#include <ctime>
+#include <time.h>
 
 file_manager::file_manager()
 {
@@ -58,6 +61,16 @@ void file_manager::create_project(QString name)
     dir.mkdir(name);
     dir.cd(name);
     dir.mkdir(taskDirName);
+}
+
+void file_manager::delete_test(QString name)
+{
+    QFile(testPath + "/" + file_name(name)).remove();
+}
+
+void file_manager::delete_list(QString name)
+{
+    QFile(listPath + "/" + file_name(name)).remove();
 }
 
 QJsonObject file_manager::read_test(QString name)
@@ -117,11 +130,19 @@ QJsonObject file_manager::read_task(QString name)
 void file_manager::write_test(QString name, QJsonObject &data)
 {
     QFile file(testPath+ "/" + file_name(name));
-    if (file.exists()){
-        qFatal(QString("file for write not exist %1").arg(file_name(name)).toStdString().c_str());
-        return;
+//    if (!file.exists()){
+//        file.open(QFile::WriteOnly | QFile::NewOnly);
+//        qDebug(QString("create new file %1").arg(file_name(name)).toStdString().c_str());
+//    } else {
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+
+    if (!file.isOpen()){
+        qDebug("file not open");
+        file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::NewOnly);
+        if (!file.isOpen())
+            qDebug("file not open again");
     }
-    file.open(QFile::WriteOnly);
+
     QJsonDocument doc;
     doc.setObject(data);
     file.write(doc.toJson());
@@ -175,13 +196,32 @@ void file_manager::write_task(QString name, QJsonObject &data)
 QStringList file_manager::get_all_tests()
 {
     QDir dir(testPath);
-    return dir.entryList(QDir::Files | QDir::NoDotAndDotDot);
+    auto allFiles = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
+    QStringList files;
+    for (auto &info : allFiles){
+        if (info.suffix() == "meta"){
+            files.push_back(info.baseName());
+
+        }
+    }
+    qDebug("TESTING NOW");
+    qDebug(files.at(0).toStdString().c_str());
+    return files;
 }
 
 QStringList file_manager::get_all_lists()
 {
     QDir dir(listPath);
-    return dir.entryList(QDir::Files | QDir::NoDotAndDotDot);
+    auto allFiles = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
+    QStringList files;
+    for (auto &info : allFiles){
+        if (info.suffix() == "meta"){
+            files.push_back(info.baseName());
+
+        }
+    }
+    qDebug(files.at(0).toStdString().c_str());
+    return files;
 }
 
 QStringList file_manager::get_all_projects()
@@ -234,6 +274,79 @@ QString file_manager::get_project_of_run(QString run_name)
         }
     }
     qDebug("No run with this name");
+}
+
+QJsonObject file_manager::exec_save_report_one(QString py_script, QString name_test)
+{
+    QFile file(py_script);
+    if (!file.exists())
+        qDebug(QString("py script \"%1\" isn't exists").arg(py_script).toStdString().c_str());
+    else{
+        QString temp("python %1 > %2");
+        QString report_fname(reportPath + "/" + "report_%1_%2.txt");
+        QString date {actual_time()};
+        QString rep_fname = report_fname.arg(name_test).arg(date); // для имени теста
+        int code = system(temp.arg(py_script).arg(rep_fname).toStdString().c_str());
+
+        QFile fil(rep_fname);
+        fil.open(QFile::ReadOnly);
+        if(!fil.isOpen()){
+            qDebug(QString("file of report \"%1\" isn't open for read").arg(py_script).toStdString().c_str());
+        }
+
+        QString report(fil.readAll());
+        QJsonObject obj;
+        obj["code"] = code;
+        obj["script"] = py_script;
+        obj["report"] = report;
+        obj["name"] = name_test; // для имени теста ..
+        fil.close();
+        fil.open(QFile::WriteOnly);
+        if(!fil.isOpen()){
+            qDebug(QString("file of report \"%1\" isn't open for write").arg(py_script).toStdString().c_str());
+        }
+
+        QJsonDocument doc;
+        doc.setObject(obj);
+        fil.write(doc.toJson());
+        fil.close();
+        return obj;
+    }
+    return QJsonObject();
+}
+
+QJsonObject file_manager::exec_save_report_some_list(QStringList py_scripts, QStringList names_test,
+                                                     QString name_list)
+{
+    QJsonArray test_reports;
+    for (int i = 0; i < py_scripts.size(); i++){
+        test_reports.push_back(exec_save_report_one(py_scripts[i],names_test[i]));
+    }
+
+    QString report_fname(reportPath + "/" + "report_list_%1_%2.txt");
+    QString date {actual_time()};
+    QString rep_fname = report_fname.arg(name_list).arg(date);
+    QFile fil(rep_fname);
+    fil.open(QFile::WriteOnly);
+
+    QJsonDocument doc;
+    doc.setArray(test_reports);
+    fil.write(doc.toJson());
+
+    fil.close();
+
+}
+
+void file_manager::save_report(QString filname, QJsonObject obj)
+{
+
+}
+
+QString file_manager::actual_time(){
+    time_t tim;
+    time(&tim);
+    QString date(ctime(&tim));
+    return date;
 }
 
 

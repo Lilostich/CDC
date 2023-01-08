@@ -3,6 +3,7 @@
 #include "core/file_manager.h"
 #include <QJsonDocument>
 #include <QJsonObject>
+#include "core/test_case.h"
 
 HandTestingDetails::HandTestingDetails(QWidget *parent) :
     QWidget(parent),
@@ -36,6 +37,7 @@ void HandTestingDetails::on_save_button_clicked()
 {
     edit_form->show();
     // TODO переслать в форму пустые параметры
+    edit_form->fill("");
     add_mode = 1;
 }
 
@@ -55,6 +57,7 @@ void HandTestingDetails::on_pushButton_3_clicked()
 void HandTestingDetails::on_pushButton_clicked()
 {
     edit_form->show();
+    edit_form->fill(ui->comboBox->currentText());
     // TODO переслать в форму актуальные параметры
 }
 
@@ -65,39 +68,23 @@ void HandTestingDetails::on_comboBox_currentIndexChanged(int index)
 
 void HandTestingDetails::on_comboBox_currentIndexChanged(const QString &arg1)
 {
-    QJsonObject obj = file_manager::read_test(arg1);
-    ui->status->addItem(obj["Status"].toString());
-    ui->comment->setText(obj["Comment"].toString());
-    ui->name->setText(obj["ID"].toString());
-    ui->data_testing->setText(obj["Deadline"].toString());
-    ui->descryption->setText(obj["Host"].toString());
+    qDebug(QString("Try fill window for %1 test").arg(arg1).toStdString().c_str());
+    if (arg1 != ""){
+
+    TestCase test(arg1);
+    ui->comment->setText(test.get(TestCase::value::pyScript).toString());
+    ui->name->setText(test.get(TestCase::value::name).toString());
+    ui->data_testing->setText(test.get(TestCase::value::date_creation).toString());
+    ui->descryption->setText(test.get(TestCase::value::description).toString());
+    }
 }
 
 void HandTestingDetails::close_slot()
 {
-//    edit_form->hide();
-//    list_and_run_form->hide();
-//    if(add_mode){
-//        add_mode = 0;
-//        QJsonDocument doc;
-////        ui->status->addItem()
-//        QString status = "";
-//        QString comment = ui->comment->toPlainText();
-//        QString name = "";//ui->
-//        QString data = ui->data_testing->text();
-//        QString host = ui->descryption->text();
-//        QJsonObject obj;
-//        printf("1\n");
-//        obj["Status"] = status;
-//        obj["comment"] = comment;
-//        obj["ID"] = name;
-//        obj["Deadline"] = data;
-//        obj["Host"] = host;
-//        printf("2\n");
-//        doc.setObject(obj);
-//        file_manager::write_test(name,doc.toJson());
-//    }
-//    ui->comboBox->clear();
-//    ui->comboBox->addItems(file_manager::get_all_tests());
+    edit_form->hide();
+    list_and_run_form->hide();
+
+    ui->comboBox->clear();
+    ui->comboBox->addItems(file_manager::get_all_tests());
 
 }

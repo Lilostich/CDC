@@ -14,6 +14,15 @@ report::report(QWidget *parent) :
     sendForm = new send_form;
     connect(sendForm,SIGNAL(close_me()),
             this,SLOT(close_slot()));
+    ui->comboBox->clear();
+    ui->comboBox->addItems(file_manager::get_all_projects());
+    ui->comboBox_2->clear();
+    ui->comboBox_2->addItems(file_manager::get_all_runs());
+    ui->comboBox_3->clear();
+    ui->comboBox_4->clear();
+    ui->comboBox_5->clear();
+    ui->comboBox_6->clear();
+
 }
 
 report::~report()
