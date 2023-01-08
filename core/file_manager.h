@@ -8,6 +8,7 @@
 
 const QString testPath = "/var/lib/CDC/Tests";
 const QString listPath = "/var/lib/CDC/Lists";
+const QString reportPath = "/var/lib/CDC/Reports";
 const QString projectsPath = "/var/lib/CDC/Projects";
 const QString taskPath = "./Tasks";
 const QString taskDirName = "Tasks";
@@ -60,7 +61,13 @@ public:
 
     static QString get_project_of_run(QString run_name);
 
+    static QJsonObject exec_save_report_one(QString py_script, QString name_test);
+    static QJsonObject exec_save_report_some_list(QStringList py_scripts, QStringList names_test, QString name_list);
 
+    static void exec_script(QString py_script);
+    static void save_report(QString filname, QJsonObject obj);
+
+    static QString actual_time();
 };
 
 #endif // FILE_MANAGER_H
