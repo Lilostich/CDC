@@ -47,12 +47,12 @@ bool file_manager::have_task(QString name)
 
 void file_manager::create_test(QString name)
 {
-    system((QString("touch ") + "./" + testPath + "/" + file_name(name)).toStdString().c_str());
+    system((QString("touch ") + testPath + "/" + file_name(name)).toStdString().c_str());
 }
 
 void file_manager::create_list(QString name)
 {
-    system((QString("touch ") + "./" + listPath + "/" + file_name(name)).toStdString().c_str());
+    system((QString("touch ") + listPath + "/" + file_name(name)).toStdString().c_str());
 }
 
 void file_manager::create_project(QString name)
@@ -63,6 +63,11 @@ void file_manager::create_project(QString name)
     dir.mkdir(taskDirName);
 }
 
+void file_manager::create_run(QString name)
+{
+    system((QString("touch ") + "./" + runPath + "/" + file_name(name)).toStdString().c_str());
+}
+
 void file_manager::delete_test(QString name)
 {
     QFile(testPath + "/" + file_name(name)).remove();
@@ -71,6 +76,11 @@ void file_manager::delete_test(QString name)
 void file_manager::delete_list(QString name)
 {
     QFile(listPath + "/" + file_name(name)).remove();
+}
+
+void file_manager::delete_run(QString name)
+{
+    QFile(runPath + "/" + file_name(name)).remove();
 }
 
 QJsonObject file_manager::read_test(QString name)
@@ -211,6 +221,7 @@ QStringList file_manager::get_all_tests()
 
 QStringList file_manager::get_all_lists()
 {
+    qDebug("file_manager::get_all_lists()");
     QDir dir(listPath);
     auto allFiles = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
     QStringList files;
@@ -220,7 +231,8 @@ QStringList file_manager::get_all_lists()
 
         }
     }
-    qDebug(files.at(0).toStdString().c_str());
+    if (files.size() > 0)
+        qDebug(files.at(0).toStdString().c_str());
     return files;
 }
 
@@ -337,8 +349,7 @@ QJsonObject file_manager::exec_save_report_some_list(QStringList py_scripts, QSt
 
 }
 
-void file_manager::save_report(QString filname, QJsonObject obj)
-{
+void file_manager::save_report(QString filname, QJsonObject obj) {
 
 }
 

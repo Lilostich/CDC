@@ -19,6 +19,8 @@ public:
         description,
         pyScript,
         date_creation,
+        my_list,
+        my_run,
 
         value_size
     };
@@ -33,13 +35,21 @@ public:
     void create(QString);
     void append(value tag,QVariant);
     void remove(value tag,QVariant);
+
+    void setMyList(QVariant);
+    QVariant getMyList();
+    void setMyRun(QVariant);
+    QVariant getMyRun();
+
 private:
     QString current_test_name;
     QStringList tags {
         "name",
         "description",
         "pyScript",
-        "date_creation"
+        "date_creation",
+        "my_list",
+        "my_run"
     };
 
     QJsonObject obj;
@@ -52,6 +62,7 @@ public:
     enum value{
         name,
         tests,
+        my_run,
 
         value_size
     };
@@ -66,11 +77,14 @@ public:
     void create(QString);
     void append(value tag,QVariant);
     void remove(value tag,QVariant);
+    void setMyRun(QVariant); // TODO сделать
+    QVariant getMyRun();
 protected:
     QString current_test_name;
     QStringList tags {
         "name",
         "tests",
+        "my_run"
     };
 
     QJsonObject obj;

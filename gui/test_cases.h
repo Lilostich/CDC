@@ -15,7 +15,7 @@ class TestCases : public QWidget
 public:
     explicit TestCases(QWidget *parent = nullptr);
     ~TestCases();
-
+    void fillTable();
 private slots:
     void on_chose_test_runs_clicked();
 
@@ -23,6 +23,10 @@ private slots:
     void close_slot();
     void on_comboBox_currentIndexChanged(const QString &arg1);
     void fill_table_values(const QString run_name);
+    void on_hand_test_clicked();
+
+    void on_auto_test_clicked();
+
 private:
     Ui::TestCases *ui;
     Choice_tests *choice_form;

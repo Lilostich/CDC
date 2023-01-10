@@ -8,6 +8,7 @@
 
 const QString testPath = "/var/lib/CDC/Tests";
 const QString listPath = "/var/lib/CDC/Lists";
+const QString runPath = "/var/lib/CDC/Run";
 const QString reportPath = "/var/lib/CDC/Reports";
 const QString projectsPath = "/var/lib/CDC/Projects";
 const QString taskPath = "./Tasks";
@@ -30,13 +31,15 @@ public:
     static void create_list(QString name);
     static void create_project(QString name);
     static void create_run(QString name,QString project);
+    static void create_run(QString name);
     static void create_task(QString name);
 
     static void delete_test(QString name);
 
     static void delete_list(QString name);
     //static void delete_project(QString name);
-    //static void delete_run(QString name,QString project);
+    static void delete_run(QString name,QString project);
+    static void delete_run(QString name);
     //static void delete_task(QString name);
 
     static QJsonObject read_test(QString name);

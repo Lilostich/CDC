@@ -9,6 +9,29 @@ admining::admining(QWidget *parent) :
     this->_details = new adminingDetails;
     connect(_details,SIGNAL(close_me()),
             this,SLOT(close_slot()));
+
+    CDC::Admin admin("CDC.cfg");
+    QStringList users = admin.ListUsers();
+    for (auto &user : users){
+        qDebug(user.toStdString().c_str());
+        QStringList user_data{admin.UserInfo(user.toStdString())};
+        if (user_data.size() < 3)
+            user_data = QStringList{"no info", "no info", "no info"};
+        QString name,login,have_pass,role;
+
+        for (auto & str : user_data)
+            qDebug(str.toStdString().c_str());
+
+        login = user;
+        name = user_data[0];
+        role = user_data[1];
+        have_pass = user_data[2];
+        ui->tableWidget->insertRow(0);
+        ui->tableWidget->setItem(0,0,new QTableWidgetItem(name));
+        ui->tableWidget->setItem(0,1,new QTableWidgetItem(login));
+        ui->tableWidget->setItem(0,2,new QTableWidgetItem(role));
+        ui->tableWidget->setItem(0,3,new QTableWidgetItem(have_pass));
+    }
 }
 
 admining::~admining()

@@ -138,6 +138,26 @@ void TestSuite::remove(value tag, QVariant val)
         qDebug("no tag");
 }
 
+void TestCase::setMyList(QVariant name)
+{
+    obj[tags[value::my_list]] = name.toString();
+}
+
+QVariant TestCase::getMyList()
+{
+    return obj[tags[value::my_list]].toVariant();
+}
+
+void TestCase::setMyRun(QVariant name)
+{
+    obj[tags[value::my_run]] = name.toString();
+}
+
+QVariant TestCase::getMyRun()
+{
+    return obj[tags[value::my_run]].toVariant();
+}
+
 void TestRun::set(value tag, QVariant val)
 {
     switch (val.type()) {

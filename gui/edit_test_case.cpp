@@ -20,6 +20,8 @@ Edit_test_case::~Edit_test_case()
 
 void Edit_test_case::fill(QString name = "")
 {
+    ui->comboBox_2->clear();
+    ui->comboBox_3->clear();
     if (name == ""){
         ui->lineEdit->setText("");
         ui->lineEdit_2->setText("");
@@ -31,6 +33,12 @@ void Edit_test_case::fill(QString name = "")
     ui->lineEdit_2->setText(new_test.get(TestCase::value::description).toString());
     ui->data_creation->setText(new_test.get(TestCase::value::date_creation).toString());
     ui->path_script_edit->setText(new_test.get(TestCase::value::pyScript).toString());
+    ui->comboBox_2->addItems(file_manager::get_all_lists());
+    QStringList lists = file_manager::get_all_lists();
+    int i = -1;
+    for (i = 0; i < lists.size(); i++)
+        if (lists[i] == new_test.getMyList())
+    ui->comboBox_3->addItems(file_manager::get_all_runs());
     }
 }
 

@@ -63,8 +63,6 @@ QStringList CDC::Admin::ListUsers(){
         Setting &group = Root[i];
         tmp_string = group.getName();
 
-        group.lookupValue("level", tmp_level);
-        tmp_string = tmp_string + " " + to_string(tmp_level);
         Answer << QString::fromStdString(tmp_string);
     }
 
@@ -87,15 +85,23 @@ QStringList CDC::Admin::UserInfo(string login){
         Setting &user = cfg.lookup(login);
         // login
         Answer << user.getName();
+        qDebug("User::Name");
+        qDebug(user.getName());
         // level
         user.lookupValue("level", tmp_level);
         Answer << QString::fromStdString(to_string(tmp_level));
+        qDebug("User::level");
+        qDebug(to_string(tmp_level).c_str());
+
         // register
         if (user.lookupValue("passwd", tmp_str))
             tmp_str = "Registered";
         Answer << QString::fromStdString(tmp_str);
+        qDebug("User::pass");
+        qDebug(to_string(tmp_level).c_str());
         return Answer;
     } catch (const SettingNotFoundException &nfex) {
+        qDebug("User::Error");
         return Answer;
     }
 }
