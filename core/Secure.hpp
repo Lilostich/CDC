@@ -8,6 +8,8 @@
 #include <openssl/sha.h>        // passwd hash
 #include <iostream>
 #include <algorithm>
+#include <sstream>
+#include <iomanip>
 
 // pid
 #include <sys/types.h>
@@ -94,7 +96,7 @@ namespace CDC {
             string LoginFilePath;
             string EnteredUsersPath;
             string EmergencyPath;
-            unsigned short SecureLevel;
+            int SecureLevel;
 
             string CurrentLogin;
 

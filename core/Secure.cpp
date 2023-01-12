@@ -51,6 +51,7 @@ bool CDC::Secure::Enter(string Login, string Passwd){
 
     // compare passwords
     if (InputHash != RealHash) {
+        cerr << "InputHash = " << InputHash << "; RealHash = " << RealHash << endl;
         cerr << "Wrong password" << endl;
         return false;
     }
@@ -134,6 +135,22 @@ void stripUnicode(string & str) {
 string CDC::Secure::Hide(string Passwd){
     unsigned char hash[SHA256_DIGEST_LENGTH];
 
+    if (Passwd.empty())
+        return "";
+
+    SHA256_CTX sha256;
+    SHA256_Init(&sha256);
+    SHA256_Update(&sha256, Passwd.c_str(), Passwd.size());
+    SHA256_Final(hash, &sha256);
+
+    std::stringstream ss;
+
+    for(int i = 0; i < SHA256_DIGEST_LENGTH; i++){
+      ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>( hash[i] );
+    }
+    return ss.str();
+
+    // OLD REALIZATION
     // create hash
     SHA256(reinterpret_cast<const unsigned char*>(Passwd.c_str()), Passwd.size() - 1, hash);
 
@@ -141,6 +158,7 @@ string CDC::Secure::Hide(string Passwd){
     string HASH(reinterpret_cast<const char*>(hash));
 
     stripUnicode(HASH);
+    cerr << "[DEBUG HASH]: input -> " << Passwd << "; Output -> " << HASH << endl;
     return HASH;
 }
 // ---------------------------------------------------------------------------

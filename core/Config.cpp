@@ -99,7 +99,7 @@ int CDC::GetIntEntry_InConfig(string ConfigPath, string Entry) {
 
     // Get and set the Login File Path.
     try {
-        int answer = cfg.lookup(Entry);
+        answer = cfg.lookup(Entry);
     } catch (const SettingNotFoundException &nfex) {
         cerr << "No " << Entry << " setting in configuration file " << ConfigPath << endl;
     }

@@ -47,7 +47,6 @@ bool CDC::Admin::AddUser(string login, unsigned short secure_level) {
 
 QStringList CDC::Admin::ListUsers(){
     QStringList Answer = {};
-    int tmp_level;
     string tmp_string;
 
     // read config
