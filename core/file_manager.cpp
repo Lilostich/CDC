@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <time.h>
+#include <QTime>
 
 file_manager::file_manager()
 {
@@ -215,7 +216,7 @@ QStringList file_manager::get_all_tests()
         }
     }
     qDebug("TESTING NOW");
-    qDebug(files.at(0).toStdString().c_str());
+//    qDebug(files.at(0).toStdString().c_str());
     return files;
 }
 
@@ -296,14 +297,16 @@ QJsonObject file_manager::exec_save_report_one(QString py_script, QString name_t
     else{
         QString temp("python %1 > %2");
         QString report_fname(reportPath + "/" + "report_%1_%2.txt");
-        QString date {actual_time()};
+        QString date;// {actual_time()};
+        QTime time;
+        date = QString::number(time.msecsSinceStartOfDay());
         QString rep_fname = report_fname.arg(name_test).arg(date); // для имени теста
         int code = system(temp.arg(py_script).arg(rep_fname).toStdString().c_str());
 
         QFile fil(rep_fname);
         fil.open(QFile::ReadOnly);
         if(!fil.isOpen()){
-            qDebug(QString("file of report \"%1\" isn't open for read").arg(py_script).toStdString().c_str());
+            qDebug(QString("file of report \"%1\" isn't open for read").arg(rep_fname).toStdString().c_str());
         }
 
         QString report(fil.readAll());

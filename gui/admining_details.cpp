@@ -1,6 +1,8 @@
 #include "admining_details.h"
 #include "ui_admining_details.h"
 
+#include <QErrorMessage>
+
 adminingDetails::adminingDetails(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::adminingDetails)
@@ -35,7 +37,7 @@ void adminingDetails::fill(QString name, QString login, QString mail, QString ro
         ui->comboBox_role->setCurrentIndex(0);
 }
 
-QString adminingDetails::getName(){return ui->name_edit->text();}
+QString adminingDetails::getName() { return ui->name_edit->text(); }
 
 QString adminingDetails::getLogin() { return ui->login_edit->text(); }
 
@@ -60,6 +62,10 @@ void adminingDetails::on_exec_clicked()
 
 void adminingDetails::on_pushButton_2_clicked()
 {
+    if (ui->name_edit->text() == "Admin"){
+        QErrorMessage msg;
+        msg.showMessage("Нельзя добавлять/изменять аккаунт Admin");
+    }
     nice_end = true;
     close();
 }

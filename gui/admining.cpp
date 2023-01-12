@@ -46,23 +46,41 @@ void admining::close_slot()
         case -2:
             break;
         case -1:
-            ui->tableWidget->insertRow(0);
-            ui->tableWidget->setItem(0,0,new QTableWidgetItem(_details->getName()));
-            ui->tableWidget->setItem(0,1,new QTableWidgetItem(_details->getLogin()));
-            ui->tableWidget->setItem(0,2,new QTableWidgetItem(_details->getMail()));
-            ui->tableWidget->setItem(0,3,new QTableWidgetItem(_details->getRole()));
-        {
-            CDC::Admin admin_panel("CDC.cfg");
-            if (_details->getRole() == "Тестировщик"){
-                admin_panel.AddUser(_details->getLogin().toStdString(),2);
+            if (_details->getName() != "Admin"){
+                QString user = _details->getName();
+                CDC::Admin admin("CDC.cfg");
+                QStringList users = admin.ListUsers();
+                if (!users.contains(_details->getName())){
+
+                    ui->tableWidget->insertRow(0);
+                    ui->tableWidget->setItem(0,0,new QTableWidgetItem(_details->getName()));
+                    ui->tableWidget->setItem(0,1,new QTableWidgetItem(_details->getLogin()));
+                    ui->tableWidget->setItem(0,2,new QTableWidgetItem(_details->getMail()));
+                    ui->tableWidget->setItem(0,3,new QTableWidgetItem(_details->getRole()));
+                    {
+                        CDC::Admin admin_panel("CDC.cfg");
+                        if (_details->getRole() == "Тестировщик"){
+                            admin_panel.AddUser(_details->getLogin().toStdString(),2);
+                        }
+                        if (_details->getRole() == "Тест-аналитик"){
+                            admin_panel.AddUser(_details->getLogin().toStdString(),1);
+                        }
+                        if (_details->getRole() == "Администратор"){
+                            admin_panel.AddUser(_details->getLogin().toStdString(),0);
+                        }
+                    }
+                } else {
+//                    int i = 0;
+//                    for (i = 0; i < users.size(); i++){
+//                        if (users[i] == user)
+//                            break;
+//                    }
+//                    ui->tableWidget->setItem(i,0,new QTableWidgetItem(_details->getName()));
+//                    ui->tableWidget->setItem(i,1,new QTableWidgetItem(_details->getLogin()));
+//                    ui->tableWidget->setItem(i,2,new QTableWidgetItem(_details->getMail()));
+//                    ui->tableWidget->setItem(i,3,new QTableWidgetItem(_details->getRole()));
+                }
             }
-            if (_details->getRole() == "Тест-аналитик"){
-                admin_panel.AddUser(_details->getLogin().toStdString(),1);
-            }
-            if (_details->getRole() == "Администратор"){
-                admin_panel.AddUser(_details->getLogin().toStdString(),0);
-            }
-        }
             break;
         default:
             ui->tableWidget->setItem(add_mode,0,new QTableWidgetItem(_details->getName()));

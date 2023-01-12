@@ -65,6 +65,9 @@
    </item>
    <item>
     <widget class="QTableWidget" name="tableWidget">
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
      <column>
       <property name="text">
        <string>№ тест-рана</string>

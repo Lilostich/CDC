@@ -16,6 +16,7 @@ TestCases::TestCases(QWidget *parent) :
     ui->comboBox->clear();
     ui->comboBox->addItems(file_manager::get_all_runs());
     fillTable();
+    updateCombo();
 }
 
 TestCases::~TestCases()
@@ -37,6 +38,14 @@ void TestCases::fillTable()
         ui->tableWidget->setItem(0,4,new QTableWidgetItem(casee.get(TestCase::value::description).toString()));
         ui->tableWidget->setItem(0,5,new QTableWidgetItem(casee.get(TestCase::value::date_creation).toString()));
     }
+}
+
+void TestCases::updateCombo()
+{
+    qDebug("1");
+    ui->comboBox->clear();
+    ui->comboBox->addItems(file_manager::get_all_tasks());
+    qDebug("2");
 }
 
 // выбрать тест раны
@@ -97,5 +106,32 @@ void TestCases::on_hand_test_clicked()
 void TestCases::on_auto_test_clicked()
 {
     // Запуск теста
+    TestCase cas(active_test);
+    QString script = cas.get(TestCase::value::pyScript).toString();
+    qDebug(QString("sqript is \"%1\"").arg(script).toStdString().c_str());
+    file_manager::exec_save_report_one(script,active_test);
+}
+
+
+void TestCases::on_end_testing_clicked()
+{
+
+}
+
+
+void TestCases::on_tableWidget_cellActivated(int row, int column)
+{
+}
+
+
+void TestCases::on_tableWidget_cellDoubleClicked(int row, int column)
+{
+    // Выбор теста, который активен
+    if (column > 2) column = 2;
+    qDebug(QString::number(row).toStdString().c_str());
+    qDebug(QString::number(column).toStdString().c_str());
+    active_test = ui->tableWidget->item(row,column)->data(Qt::DisplayRole).toString();
+    qDebug(QString("update active_test \"%1\"").arg(active_test).toStdString().c_str());
+
 }
 

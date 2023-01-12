@@ -71,6 +71,8 @@ void Edit_test_case::on_save_clicked()
     new_test.set(TestCase::value::description,ui->lineEdit_2->text());
     new_test.set(TestCase::value::date_creation,ui->data_creation->text());
     new_test.set(TestCase::value::pyScript,ui->path_script_edit->text());
+    new_test.set(TestCase::value::my_list,ui->comboBox_2->currentText());
+    new_test.set(TestCase::value::my_run,ui->comboBox_3->currentText());
 
     new_test.save(ui->lineEdit->text());
     close();
