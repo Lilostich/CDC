@@ -9,6 +9,9 @@ namespace fs = std::filesystem;
 #include "Config.hpp"           // cfg work
 #include "Base.hpp"             // constants
 
+#include <QStringList>
+#include <QString>
+
 
 /// @class CDC::Project
 /// @brief Project management
@@ -46,9 +49,14 @@ namespace CDC {
             string FindProjects(string Pattern);
 
             /// @fn bool CDC::Project::ListProjects()
-            /// @brief List all projects
-            /// @return [string] Lines of found projects
-            string ListProjects();
+            /// @brief List all projects (paths)
+            /// @return [string array] Array of found projects
+            QStringList ListProjects();
+
+            /// @fn bool CDC::Project::ListProjectNames()
+            /// @brief List all project names
+            /// @return [string array] Array of found project names
+            QStringList ListProjectNames();
 
 
         private:

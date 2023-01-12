@@ -55,10 +55,20 @@ string CDC::Project::FindProjects(string Pattern) {
 }
 
 
-string CDC::Project::ListProjects() {
-    string Answer = "";
+QStringList CDC::Project::ListProjects() {
+     QStringList Answer = {};
     for (const auto & entry : fs::directory_iterator(ProjectsPath)) {
-        Answer = Answer + "\n" + entry.path().string();
+        Answer << QString::fromStdString(entry.path().string());
+    }
+
+    return Answer;
+}
+
+
+QStringList CDC::Project::ListProjectNames() {
+     QStringList Answer = {};
+    for (const auto & entry : fs::directory_iterator(ProjectsPath)) {
+        Answer << QString::fromStdString(entry.path().string().substr(entry.path().string().find_last_of("/\\") + 1));
     }
 
     return Answer;
